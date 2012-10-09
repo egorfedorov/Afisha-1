@@ -1,0 +1,18 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @place.name
+%p
+  %b Category:
+  = @place.category_id
+%p
+  %b Desc:
+  = @place.desc
+%p
+  %b Contact:
+  = @place.contact_id
+
+= link_to 'Edit', edit_place_path(@place)
+\|
+= link_to 'Back', places_path

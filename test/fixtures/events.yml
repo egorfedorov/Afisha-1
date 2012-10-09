@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  item_id: 1
+  place_id: 1
+  date_begin: 2012-09-25 23:33:54
+
+two:
+  name: MyString
+  item_id: 1
+  place_id: 1
+  date_begin: 2012-09-25 23:33:54
