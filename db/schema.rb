@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.string   "name"
     t.text     "desc"
     t.integer  "parent_id"
+    t.integer  "type"
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "depth"
@@ -61,9 +62,10 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.string   "name"
     t.integer  "item_id"
     t.integer  "place_id"
+    t.integer  "category_id"
     t.datetime "date_begin"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "items", :force => true do |t|

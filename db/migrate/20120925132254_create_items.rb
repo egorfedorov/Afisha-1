@@ -5,7 +5,7 @@ class CreateItems < ActiveRecord::Migration
       t.text :full_text
       t.datetime :date
       t.integer :type
-
+      t.integer :category_id
 
       t.timestamps
     end

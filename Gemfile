@@ -28,14 +28,15 @@ gem 'activeadmin'
 
 gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 
-gem 'simple_form'
+#gem 'simple_form'
 gem 'awesome_nested_set'
 gem 'jquery-rails'
 gem 'pg'
 gem "devise"
 gem 'cancan'
 gem 'haml'
-gem 'will_paginate', '~> 3.0'
+#gem 'will_paginate', '~> 3.0'
+#gem 'kaminari'
 gem 'acts-as-taggable-on', '~> 2.3.1'
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

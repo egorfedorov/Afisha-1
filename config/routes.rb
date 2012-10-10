@@ -3,11 +3,14 @@ Afisha::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  resources :wers
+
 
   resources :places
 
   resources :events
+
+
+
 
   resources :items
 
