@@ -67,6 +67,11 @@ class CategoriesController < ApplicationController
         format.json { render json: @category.errors, status: :unprocessable_entity }
       end
     end
+  rescue Exception => e
+    #puts
+    puts e.message
+    puts e.backtrace.inspect
+
   end
 
   # DELETE /categories/1
