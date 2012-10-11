@@ -4,7 +4,7 @@ class CreateCategories < ActiveRecord::Migration
       t.string :name
       t.text :desc
       t.integer :parent_id
-      t.integer :type
+      t.integer :type_id
       t.integer :lft
       t.integer :rgt
       t.integer :depth # this is optional.

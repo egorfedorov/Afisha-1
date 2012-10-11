@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.string   "name"
     t.text     "desc"
     t.integer  "parent_id"
-    t.integer  "type"
+    t.integer  "type_id"
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "depth"
@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.string   "title"
     t.text     "full_text"
     t.datetime "date"
-    t.integer  "type"
+    t.integer  "type_id"
     t.integer  "category_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
@@ -83,6 +83,7 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.integer  "category_id"
     t.text     "desc"
     t.integer  "contact_id"
+    t.integer  "item_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
