@@ -73,8 +73,9 @@ ActiveRecord::Schema.define(:version => 20121009154223) do
     t.text     "full_text"
     t.datetime "date"
     t.integer  "type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "category_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "places", :force => true do |t|
