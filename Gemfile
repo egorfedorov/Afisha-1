@@ -35,6 +35,9 @@ gem 'pg'
 gem "devise"
 gem 'cancan'
 gem 'haml'
+
+gem 'nokogiri'
+
 #gem 'will_paginate', '~> 3.0'
 #gem 'kaminari'
 gem 'acts-as-taggable-on', '~> 2.3.1'

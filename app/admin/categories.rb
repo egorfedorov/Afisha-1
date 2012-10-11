@@ -6,7 +6,7 @@ ActiveAdmin.register Category do
     f.inputs "Details" do
       f.input :name
       f.input :desc
-      f.input :type_id
+      f.input :type
       f.input :parent
     end
 
@@ -16,7 +16,7 @@ ActiveAdmin.register Category do
   index do
     column :name
     column :desc
-    column :type_id
+    column :type
     #column "Parent"  do |category|
     # category.parent_category.try(:name)
     #

@@ -12,10 +12,14 @@ class Category < ActiveRecord::Base
   end
 
 
-
+  belongs_to :type
   has_many :events
   has_many :places
   has_one :parent_category , :class_name=>:category , :foreign_key => :parent_id
+
+
+
+
 
 
 end

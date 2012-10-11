@@ -5,16 +5,16 @@ Afisha::Application.routes.draw do
 
 
 
-  resources :places
+  resources :places   , :only => [:index , :show]
 
-  resources :events
-
-
+  resources :events   ,:only => [:index , :show]
 
 
-  resources :items
+  get 'parse' => 'items#parse'
 
-  resources :categories
+  resources :items  ,:only => [:index , :show]
+
+  resources :categories   ,:only => [:index , :show]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

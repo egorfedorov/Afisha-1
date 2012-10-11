@@ -6,9 +6,7 @@
     %th Item
     %th Place
     %th Date begin
-    %th
-    %th
-    %th
+
 
   - @events.each do |event|
     %tr
@@ -16,10 +14,8 @@
       %td= event.item_id
       %td= event.place_id
       %td= event.date_begin
-      %td= link_to 'Show', event
-      %td= link_to 'Edit', edit_event_path(event)
-      %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }
+
 
 %br
 
-= link_to 'New Event', new_event_path
+
