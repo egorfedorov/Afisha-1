@@ -92,6 +92,7 @@ ActiveRecord::Schema.define(:version => 20121013125713) do
   create_table "items", :force => true do |t|
     t.string   "title"
     t.text     "full_text"
+    t.text     "info"
     t.datetime "date"
     t.integer  "type_id"
     t.integer  "category_id"

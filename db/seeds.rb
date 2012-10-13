@@ -24,9 +24,9 @@ Place.create([
     {:name =>'place3' }
             ])
 Category.create([
-    {:name =>'Category1', :type=>1 },
-    {:name =>'Category2', :type=>2},
-    {:name =>'Category3', :type=>3},
+    {:name =>'Category1', :type_id=>1 },
+    {:name =>'Category2', :type_id=>2},
+    {:name =>'Category3', :type_id=>3},
          ])
 Type.create([
     {:name =>'events'},

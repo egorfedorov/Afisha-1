@@ -3,4 +3,5 @@ class Place < ActiveRecord::Base
   has_many :events
   belongs_to :item
   belongs_to :category           , :conditions => "type_id = 3"
+  validates :name , :uniqueness => true
 end

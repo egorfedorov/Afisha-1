@@ -2,6 +2,7 @@ class Category < ActiveRecord::Base
   acts_as_nested_set
   attr_accessible :desc, :name, :type_id   ,:parent_id
 
+  validates :name , :uniqueness => true
   validates_each :parent_id   do |record, attr, value|
     if value
        cat = Category.find(value)
