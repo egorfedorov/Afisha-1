@@ -28,6 +28,9 @@ gem 'activeadmin'
 
 gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 
+
+
+
 #gem 'simple_form'
 gem 'awesome_nested_set'
 gem 'jquery-rails'
