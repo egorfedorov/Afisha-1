@@ -17,10 +17,11 @@ ActiveAdmin.register Category do
     column :name
     column :desc
     column :type
-    #column "Parent"  do |category|
-    # category.parent_category.try(:name)
-    #
-    #end
+
+    column "Parent"  do |category|
+     category.parent_category.try(:name)
+
+    end
     default_actions
   end
 

@@ -30,7 +30,7 @@ namespace :parser  do
 
       item_count = 0
     domen = 'http://www.redom.ru'
-    html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/month/theater/"))
+    html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
     #event =  html.css('table.playbill h2 a')
     event_list =  html.css('td.action')   #Список мероприятий
 
@@ -41,41 +41,79 @@ namespace :parser  do
 
 
       event_entire =  Nokogiri::HTML(open(domen+event_url))     #Заходим в событие
+      #event_entire =  Nokogiri::HTML(open('http://www.redom.ru/afisha/details/8865/'))     #Заходим в событие
          p  event_name = event_entire.css('h1.black').text
-           break  if Item.find_by_title(event_name)
+        ( p("Такой объект уже есть #{event_name}");  break )  if Item.find_by_title(event_name)    #выходим если итем уже есть
           cat =  Category.find_by_name('События')  || Category.create(:name=>'События', :type_id=>2)
         item = Item.new(:title =>event_name , :category_id =>cat.id  )
-          cat_event = event_entire.css("small.genre").text
-       break unless cat = Category.find_by_name(cat_event)
+          cat_event = event_entire.css("td.action-reference small.genre").text
 
-      item.category=cat
+      cat_event.split(',').each do |cat|
+        p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
+        item.category << Category.find_by_name(cat.strip)
+      end
+
+
+
 
       desc = event_entire.at_css('div.action-description p').to_html(:encoding => 'UTF-8')
       info = event_entire.at_css('table.cells.reference').to_html(:encoding => 'UTF-8')
 
       item.full_text=desc
       item.info = info
+      item.save!
+      #################################
+      gallery = Gallery.create(:item_id=> item.id, :name=>event_name)
 
-      if ( item.save! )
-          item_count += 1
+      images = event_entire.css('td.action-picture div.trailers a')
+      images.each do |image|
+        if  image['href']!=''
+          im = Image.new
+          im.image =open image['href']
+          im.gallery = gallery
+          im.save!
+        end
+
       end
+      image1 = event_entire.at_css('td.action-picture a')
 
-      date = event_entire.css('h6 span.red').text
+
+      im = Image.new
+      im.image = open image1['href']
+      im.gallery = gallery
+      im.save!
+
+      #################################
+
+
+
+
+       #event_entire.css('h6 span.red').each do |date|
+       #
+       #  p date.text
+       #p date.next.text
+
+       #end
+
+
+
+
+
       #
       #
       # p  "#{i} - #{t.text.gsub(', ' , '')}"
 
 
 
-     break
+     #break
 
     end
 
-      #Rake::Task['parser:r'].invoke
+
     end
 
 
-  task :photo_parse  =>:environment  do  |t , url ,item|
+  task :photo_parse   =>:environment  do  |t , url ,item|
 
     gallery = Gallery.create(:item=> item)
     html =   Nokogiri::HTML(open(url))

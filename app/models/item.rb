@@ -1,6 +1,6 @@
 class Item < ActiveRecord::Base
   attr_accessible :title, :date, :full_text  , :category_id , :type_id   , :info
-  belongs_to :category   , :conditions => "type_id = 2"
+  has_and_belongs_to_many :category
   has_many :galleries
   has_many :events
   has_one :place

@@ -13,13 +13,18 @@ class Category < ActiveRecord::Base
   end
 
 
+
+  has_and_belongs_to_many :items
   belongs_to :type
   has_many :events
   has_many :places
   has_one :parent_category , :class_name=>:category , :foreign_key => :parent_id
 
 
+  def parent_category
+    self.parent
 
+  end
 
 
 
