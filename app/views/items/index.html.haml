@@ -1,19 +1,11 @@
-%h1 Listing items
-
-%table
-  %tr
-    %th title
-    %th Full text
-    %th Date
-    %th Type
 
 
-  - @items.each do |item|
-    %tr
-      %td= item.title
-      %td= item.full_text
-      %td= item.date
-      %td= item.type_id
-
-%br
-
+.raw
+  -@items.each do  |item|
+    .span3
+      .raw
+        .well
+          %h4=item.title
+          =image_tag item.galleries.first.images.last.image.url('medium')
+          -#.small
+          = HTML_Truncator.truncate( item.full_text ,10 ).html_safe

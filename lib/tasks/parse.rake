@@ -56,8 +56,8 @@ namespace :parser  do
 
 
 
-      desc = event_entire.at_css('div.action-description p').to_html(:encoding => 'UTF-8')
-      info = event_entire.at_css('table.cells.reference').to_html(:encoding => 'UTF-8')
+      desc = event_entire.at_css('div.action-description p').try to_html(:encoding => 'UTF-8')
+      info = event_entire.at_css('table.cells.reference').try to_html(:encoding => 'UTF-8')
 
       item.full_text=desc
       item.info = info
