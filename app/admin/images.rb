@@ -12,7 +12,7 @@ ActiveAdmin.register Image do
   end
 
   index :as => :grid do |product|
-    link_to(image_tag(product.image.url('thumb')), admin_image_path(product))
+    link_to(image_tag(product.image.url('medium')), admin_image_path(product))
   end
 
   

@@ -43,7 +43,7 @@ namespace :parser  do
       event_entire =  Nokogiri::HTML(open(domen+event_url))     #Заходим в событие
       #event_entire =  Nokogiri::HTML(open('http://www.redom.ru/afisha/details/8865/'))     #Заходим в событие
          p  event_name = event_entire.css('h1.black').text
-        ( p("Такой объект уже есть #{event_name}");  break )  if Item.find_by_title(event_name)    #выходим если итем уже есть
+        ( p("Такой объект уже есть #{event_name}");  next )  if Item.find_by_title(event_name)    #выходим если итем уже есть
           cat =  Category.find_by_name('События')  || Category.create(:name=>'События', :type_id=>2)
         item = Item.new(:title =>event_name , :category_id =>cat.id  )
           cat_event = event_entire.css("td.action-reference small.genre").text
@@ -65,27 +65,23 @@ namespace :parser  do
       #################################
       gallery = Gallery.create(:item_id=> item.id, :name=>event_name)
 
-      images = event_entire.css('td.action-picture div.trailers a')
+      images = event_entire.css('td.action-picture div.trailers a img')
       images.each do |image|
-        if  image['href']!=''
           im = Image.new
-          im.image =open image['href']
+          im.image =open image.parent['href']
           im.gallery = gallery
           im.save!
-        end
+      end   if images
 
-      end
       image1 = event_entire.at_css('td.action-picture a')
-
-
-      im = Image.new
+      (im = Image.new
       im.image = open image1['href']
       im.gallery = gallery
-      im.save!
+      im.save! ) if image1
 
       #################################
 
-
+      item.save!
 
 
        #event_entire.css('h6 span.red').each do |date|
