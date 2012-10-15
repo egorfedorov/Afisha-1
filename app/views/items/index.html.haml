@@ -1,11 +1,15 @@
 
 
-.raw
-  -@items.each do  |item|
+.row
+  - i=0
+  -@items.each do  |item| i+=1
     .span3
-      .raw
-        .well
-          %h4=item.title
-          =image_tag item.galleries.first.images.last.image.url('medium')
-          -#.small
-          = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
+      .well
+        %h4=item.title
+        -item.category.each do |cat|
+          =link_to cat.name
+        =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
+        -#.small
+        = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
+    - if   i.multiple_of?(3)
+      .clearfix()

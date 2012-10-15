@@ -5,4 +5,11 @@ class Item < ActiveRecord::Base
   has_many :events
   has_one :place
   validates :title , :uniqueness => true
+
+
+  def full_category
+
+
+  end
+
 end
