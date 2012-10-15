@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121011110317) do
+ActiveRecord::Schema.define(:version => 20121014092354) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -59,6 +59,11 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "categories_items", :id => false, :force => true do |t|
+    t.integer "item_id"
+    t.integer "category_id"
+  end
+
   create_table "events", :force => true do |t|
     t.string   "name"
     t.integer  "item_id"
@@ -71,9 +76,30 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "galleries", :force => true do |t|
+    t.string   "name"
+    t.text     "desc"
+    t.integer  "type_id"
+    t.integer  "item_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "images", :force => true do |t|
+    t.string   "name"
+    t.integer  "gallery_id"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+  end
+
   create_table "items", :force => true do |t|
     t.string   "title"
     t.text     "full_text"
+    t.text     "info"
     t.datetime "date"
     t.integer  "type_id"
     t.integer  "category_id"
