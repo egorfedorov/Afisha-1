@@ -7,7 +7,7 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :category_id
       t.datetime :date_begin
       t.datetime :date_end
-
+      t.boolean :auto_load
       t.timestamps
     end
   end

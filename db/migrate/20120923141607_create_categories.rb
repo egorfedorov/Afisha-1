@@ -8,6 +8,7 @@ class CreateCategories < ActiveRecord::Migration
       t.integer :lft
       t.integer :rgt
       t.integer :depth # this is optional.
+      t.boolean :auto_load
       t.timestamps
     end
   end

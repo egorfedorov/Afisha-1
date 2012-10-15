@@ -6,9 +6,12 @@ class ApplicationController < ActionController::Base
   html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/details/8876/"))
   table =  html.css('table.catlist')
    table =table.css('a')
+
   table.each do |elem|
-     Category.create(:name=>elem.text , :type_id=>1)
+     Category.create(:name=>elem.text , :type_id=>1, :auto_load=> true )
+
   end
 
+  render :text => "OK"
   end
 end

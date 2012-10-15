@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.integer  "lft"
     t.integer  "rgt"
     t.integer  "depth"
+    t.boolean  "auto_load"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -65,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.integer  "category_id"
     t.datetime "date_begin"
     t.datetime "date_end"
+    t.boolean  "auto_load"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -75,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.datetime "date"
     t.integer  "type_id"
     t.integer  "category_id"
+    t.boolean  "auto_load"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -85,6 +88,7 @@ ActiveRecord::Schema.define(:version => 20121011110317) do
     t.text     "desc"
     t.integer  "contact_id"
     t.integer  "item_id"
+    t.boolean  "auto_load"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
