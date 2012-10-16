@@ -29,7 +29,8 @@ namespace :parser  do
 
     desc "Parse  событий "
     task :item_parse  =>:environment  do  |t , arg|
-
+    #require  "ParseHelper"
+    include  ParseHelper
       item_count = 0
     domen = 'http://www.redom.ru'
     html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
@@ -106,10 +107,14 @@ namespace :parser  do
        data = d.text.split(',').first
 
         d.parent.next_element.css('td.place').each do |place|
-          p place.css('a').first['href']
+          place_url =domen+place.css('a').first['href']
+
           t1 =   place.text.split('/')
           place_name =  t1.first.strip
           room_name = t1.last.strip  if t1[1]
+
+         place_o = Place.find_by_name(place_name) || ParseHelper::create_place(place_url)
+
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',','').strip
            event =  Event.new
@@ -117,6 +122,7 @@ namespace :parser  do
           p  event.date_begin = "#{data}  #{time1}"
             event.items = [item]
             event.auto_load= 1
+            event.place =place_o
             event.save!
           end  if  place.next_element
 
@@ -132,9 +138,12 @@ namespace :parser  do
           p "-----------"
         end
       end
-      #break
+      break
+
+
 
     end
+
 
 
   end
