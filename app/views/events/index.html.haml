@@ -1,5 +1,17 @@
 %h1 Listing events
 
+.row
+  - i=0
+  -@events.each do  |event|  item = event.items.first
+    .span6
+      .well
+        %h4=item.name
+        -item.category.each do |cat|
+          =link_to cat.name
+        =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
+        -#.small
+        = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
+        %p=link_to event.place.name , place_path(event.place)
 
 
 
