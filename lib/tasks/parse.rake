@@ -24,13 +24,15 @@ namespace :parser  do
 
     end
   end
+###############################################################
+  #TODO refactor me
 
     desc "Parse  событий "
-    task :event_parse  =>:environment  do  |t , arg|
+    task :item_parse  =>:environment  do  |t , arg|
 
       item_count = 0
     domen = 'http://www.redom.ru'
-    html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/month/concerts/"))
+    html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
     #event =  html.css('table.playbill h2 a')
 
       parent_cat = html.xpath("//table[@class='catlist']/tr/td/span").text
@@ -39,24 +41,28 @@ namespace :parser  do
 
 
     event_list.each do |elem|
-      event_url =  elem.parent.css('.action a').first['href']
-      place_url =  elem.parent.css('.place a').first['href']
-      #parent_cat = elem.
+      event_url =  elem.css('h2 a').first['href']
+      #place_url =  elem.parent.css('.place a').first['href']
 
-      event_entire =  Nokogiri::HTML(open(domen+event_url))     #Заходим в событие
-      #event_entire =  Nokogiri::HTML(open('http://www.redom.ru/afisha/details/8865/'))     #Заходим в событие
+         next  if Item.find_by_title(elem.parent.css('.action a').first.text) # Пропускаем если уже есть такой item
+
+        event_entire =  Nokogiri::HTML(open(domen+event_url))     #Заходим в событие
+        #event_entire =  Nokogiri::HTML(open("http://www.redom.ru/afisha/details/8866/"))     #Заходим в событие
+
          p  event_name = event_entire.css('h1.black').text
-        ( p("Такой объект уже есть #{event_name}");  next )  if Item.find_by_title(event_name)    #выходим если итем уже есть
-          cat =  Category.find_by_name('События')  || Category.create(:name=>'События', :type_id=>2)
-        item = Item.new(:title =>event_name   )
-          cat_event = event_entire.css("td.action-reference small.genre").text
 
-      cat_event.split(',').each do |cat|
-        p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
-        item.category << Category.find_by_name(cat.strip)
+         item = Item.new(:title =>event_name)
 
-      end
-      item.category << parent_cat if  cat_event.nil?
+        cat_event = event_entire.css("td.action-reference small.genre").text
+
+        cat_event.split(',').each do |cat|
+          #p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
+           Category.create(:name=>cat.strip ,:parent_id=>Category.find_by_name(parent_cat).id,:type_id=>1)    unless Category.find_by_name(cat.strip)
+          item.category << Category.find_by_name(cat.strip)
+
+        end
+
+      item.category << Category.find_by_name(parent_cat) if  cat_event.empty?
 
 
 
@@ -65,9 +71,11 @@ namespace :parser  do
 
       item.full_text=desc.to_html(:encoding => 'UTF-8') if desc
       item.info = info.to_html(:encoding => 'UTF-8')   if info
+      item.auto_load= 1
       item.save!
       #################################
-     if gallery = Gallery.find_by_name(event_name)
+
+    if gallery = Gallery.find_by_name(event_name)
         gallery.item = item
         gallery.save
        else
@@ -86,50 +94,57 @@ namespace :parser  do
       im.image = open image1['href']
       im.gallery = gallery
       im.save! ) if image1
-     end
+    end
       #################################
 
       item.save!
 
 
-       #event_entire.css('h6 span.red').each do |date|
-       #
-       #  p date.text
-       #p date.next.text
+      event_data =  event_entire.css('h6 span.red')
 
-       #end
+      event_data.each do |d|
+       data = d.text.split(',').first
 
+        d.parent.next_element.css('td.place').each do |place|
+          p place.css('a').first['href']
+          t1 =   place.text.split('/')
+          place_name =  t1.first.strip
+          room_name = t1.last.strip  if t1[1]
+          place.next_element.css('b').each do |time2|
+            time1= time2.text.gsub(',','').strip
+           event =  Event.new
+          p  event.name="#{place_name}/#{room_name} - #{event_name}"
+          p  event.date_begin = "#{data}  #{time1}"
+            event.items = [item]
+            event.auto_load= 1
+            event.save!
+          end  if  place.next_element
 
+          # TODO разобраться с нонстопами
+          #place.next_element.css('a').each do |a|
+          #  item = Item.find_by_title(a.text)
+          #  p item.title
+          #  event.items << item  if item
+          #  event.name = "Нон-стоп #{} "
+          #  event.save!
+          #end      if place.next_element.css('a')
 
-
-
-      #
-      #
-      # p  "#{i} - #{t.text.gsub(', ' , '')}"
-
-
-
-     #break
+          p "-----------"
+        end
+      end
+      #break
 
     end
 
-
-    end
-
-
-  task :photo_parse   =>:environment  do  |t , url ,item|
-
-    gallery = Gallery.create(:item=> item)
-    html =   Nokogiri::HTML(open(url))
-    images = html.css('td.action-picture div.trailers a')
-    images.each do |image|
-      Image.create(:image => image['href']  , :gallery => gallery)
-
-    end
-    image1 = html.css('td.action-picture a')
-
-    Image.create(:image => image1.first['href']  , :gallery => gallery)
 
   end
+
+
+
+
+
+
+
+
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121014092354) do
+ActiveRecord::Schema.define(:version => 20121016073216) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -76,6 +76,11 @@ ActiveRecord::Schema.define(:version => 20121014092354) do
     t.datetime "updated_at",  :null => false
   end
 
+  create_table "events_items", :id => false, :force => true do |t|
+    t.integer "item_id"
+    t.integer "event_id"
+  end
+
   create_table "galleries", :force => true do |t|
     t.string   "name"
     t.text     "desc"
@@ -117,6 +122,13 @@ ActiveRecord::Schema.define(:version => 20121014092354) do
     t.boolean  "auto_load"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "rooms", :force => true do |t|
+    t.string   "name"
+    t.integer  "place_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "taggings", :force => true do |t|

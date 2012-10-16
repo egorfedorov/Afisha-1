@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
-  attr_accessible :title, :date, :full_text  , :category_id , :type_id   , :info
+  attr_accessible :title, :date, :full_text  , :category_id , :type_id   , :info , :auto_load
   has_and_belongs_to_many :category
+  has_and_belongs_to_many :events
   has_many :galleries
   has_many :events
   has_one :place
