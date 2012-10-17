@@ -3,7 +3,7 @@ class Item < ActiveRecord::Base
   has_and_belongs_to_many :category
   has_and_belongs_to_many :events
   has_many :galleries
-  has_many :events
+  has_and_belongs_to_many :events
   has_one :place
   validates :title , :uniqueness => true
   belongs_to :type

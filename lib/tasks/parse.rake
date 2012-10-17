@@ -4,6 +4,7 @@ namespace :parser  do
   task :category_parse  =>:environment  do  |t , arg|
     domen = 'http://www.redom.ru'
     html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/details/8876/"))
+
     table =  html.css('table.catlist')
     table =table.css('a')
 
@@ -21,39 +22,40 @@ namespace :parser  do
              p sub_cat
 
            end   if   sub_cats.at_css('td.genres-container')
-
     end
+
+
   end
 ###############################################################
   #TODO refactor me
 
     desc "Parse  событий "
     task :item_parse  =>:environment  do  |t , arg|
-    #require  "ParseHelper"
+
     include  ParseHelper
-      item_count = 0
+
     domen = 'http://www.redom.ru'
     html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
-    #event =  html.css('table.playbill h2 a')
+
 
       parent_cat = html.xpath("//table[@class='catlist']/tr/td/span").text
 
       event_list =  html.css('td.action')   #Список мероприятий
 
 
-    event_list.each do |elem|
-      event_url =domen + elem.css('h2 a').first['href']
-      #place_url =  elem.parent.css('.place a').first['href']
+    event_list.each do |elem|      # Пробегаем по списку мероприятий
+
+         event_url =domen + elem.css('h2 a').first['href']
 
          next  if Item.find_by_title(elem.parent.css('.action a').first.text) # Пропускаем если уже есть такой item
 
         event_entire =  Nokogiri::HTML(open(event_url))     #Заходим в событие
-        #event_entire =  Nokogiri::HTML(open("http://www.redom.ru/afisha/details/8866/"))     #Заходим в событие
+
 
          p  event_name = event_entire.css('h1.black').text
 
          item = Item.new(:title =>event_name)
-#############################################
+   #############################################
         cat_event = event_entire.css("td.action-reference small.genre").text
 
         cat_event.split(',').each do |cat|
@@ -62,9 +64,9 @@ namespace :parser  do
           item.category << Category.find_by_name(cat.strip)
 
         end
-######################################3333
-      item.category << Category.find_by_name(parent_cat) if  cat_event.empty?
 
+      item.category << Category.find_by_name(parent_cat) if  cat_event.empty?
+  ######################################3333
 
 
       desc = event_entire.at_css('div.action-description p')
@@ -109,16 +111,22 @@ namespace :parser  do
             event.auto_load= 1
             event.place =place_o
             event.save!
+
+            if place.next_element.css('a')
+
+              place.next_element.css('a').each do |a|
+                p a.text
+                item = Item.find_by_title(a.text)
+                p item.title
+                event.items << item  if item
+                event.name = "Нон-стоп #{} "
+                event.save!
+              end
+            end
+
           end  if  place.next_element
 
-          # TODO разобраться с нонстопами
-          #place.next_element.css('a').each do |a|
-          #  item = Item.find_by_title(a.text)
-          #  p item.title
-          #  event.items << item  if item
-          #  event.name = "Нон-стоп #{} "
-          #  event.save!
-          #end      if place.next_element.css('a')
+
 
           p "-----------"
         end

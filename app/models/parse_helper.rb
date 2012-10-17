@@ -10,13 +10,15 @@ module ParseHelper
     place.name= name
     place.desc =desc
     address=html.at_xpath('//tr/td[text()="Адрес"]').try(:next_element).try(:text)
+    location=html.at_xpath('//tr/td[text()="Район"]').try(:next_element).try(:text)
     tel=html.at_xpath('//tr/td[text()="Телефон"]').try(:next_element).try(:text)
     mail=html.at_xpath('//tr/td[text()="E-mail"]').try(:next_element).try(:text)
-    place.create_contact(:address=> address, :tel=>tel, :mail=>mail)
+    site=html.at_xpath('//tr/td[text()="Сайт"]').try(:next_element).try(:text)
+    place.create_contact(:address=> address, :tel=>tel, :mail=>mail ,:site=>site ,:location=>location)
     place.save!
     place
   end
-
+#Парсит картинки в галерею
  def gallery_parse (url, event_html=nil )
 
    event_html ||=  Nokogiri::HTML(open(url))
@@ -28,6 +30,14 @@ module ParseHelper
    else
      gallery = Gallery.new( :name=>event_name)
 
+     image1 = event_html.at_css('td.action-picture a')
+
+     (im = Image.new
+     im.image = open image1['href']
+     im.gallery = gallery
+     im.save! ) if image1
+
+
      images =event_html.css('td.action-picture div.trailers a img')
      images.each do |image|
        im = Image.new
@@ -36,12 +46,6 @@ module ParseHelper
        im.save!
      end   if images
 
-     image1 = event_html.at_css('td.action-picture a')
-
-     (im = Image.new
-     im.image = open image1['href']
-     im.gallery = gallery
-     im.save! ) if image1
 
      return gallery
    end

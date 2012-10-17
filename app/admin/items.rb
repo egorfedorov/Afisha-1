@@ -5,7 +5,7 @@ ActiveAdmin.register Item do
    selectable_column
     column :id
    column :photo  do |item|
-     image_tag item.galleries.first.images.last.image.url('thumb')
+     image_tag item.galleries.first.images.first.image.url('thumb')   unless item.galleries.empty?
    end
     column :title  , :width=>'200'
     column :info do |item|
