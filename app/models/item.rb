@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   has_many :events
   has_one :place
   validates :title , :uniqueness => true
-
+  belongs_to :type
 
   def full_category
 

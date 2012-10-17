@@ -1,0 +1,3 @@
+%h2=@gallery.name
+-@gallery.images.each do |image|
+  .img_float= image_tag image.image.url('medium')

@@ -42,18 +42,18 @@ namespace :parser  do
 
 
     event_list.each do |elem|
-      event_url =  elem.css('h2 a').first['href']
+      event_url =domen + elem.css('h2 a').first['href']
       #place_url =  elem.parent.css('.place a').first['href']
 
          next  if Item.find_by_title(elem.parent.css('.action a').first.text) # Пропускаем если уже есть такой item
 
-        event_entire =  Nokogiri::HTML(open(domen+event_url))     #Заходим в событие
+        event_entire =  Nokogiri::HTML(open(event_url))     #Заходим в событие
         #event_entire =  Nokogiri::HTML(open("http://www.redom.ru/afisha/details/8866/"))     #Заходим в событие
 
          p  event_name = event_entire.css('h1.black').text
 
          item = Item.new(:title =>event_name)
-
+#############################################
         cat_event = event_entire.css("td.action-reference small.genre").text
 
         cat_event.split(',').each do |cat|
@@ -62,7 +62,7 @@ namespace :parser  do
           item.category << Category.find_by_name(cat.strip)
 
         end
-
+######################################3333
       item.category << Category.find_by_name(parent_cat) if  cat_event.empty?
 
 
@@ -74,28 +74,13 @@ namespace :parser  do
       item.info = info.to_html(:encoding => 'UTF-8')   if info
       item.auto_load= 1
       item.save!
+
       #################################
 
-    if gallery = Gallery.find_by_name(event_name)
-        gallery.item = item
-        gallery.save
-       else
-        gallery = Gallery.create(:item_id=> item.id, :name=>event_name)
+      gallery =  ParseHelper.gallery_parse(event_url)
 
-        images = event_entire.css('td.action-picture div.trailers a img')
-          images.each do |image|
-              im = Image.new
-              im.image =open image.parent['href']
-              im.gallery = gallery
-              im.save!
-             end   if images
-
-      image1 = event_entire.at_css('td.action-picture a')
-      (im = Image.new
-      im.image = open image1['href']
-      im.gallery = gallery
-      im.save! ) if image1
-    end
+       gallery.item = item
+      gallery.save!
       #################################
 
       item.save!
@@ -113,7 +98,7 @@ namespace :parser  do
           place_name =  t1.first.strip
           room_name = t1.last.strip  if t1[1]
 
-         place_o = Place.find_by_name(place_name) || ParseHelper::create_place(place_url)
+         place_o = Place.find_by_name(place_name) || ParseHelper.place_parse(place_url)
 
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',','').strip
