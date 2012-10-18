@@ -1,6 +1,7 @@
 #coding=utf-8
 module ParseHelper
 
+
 #Пасрит место проведения мероприятия
  def place_parse (url)
     html =   Nokogiri::HTML(open(url))
@@ -16,7 +17,7 @@ module ParseHelper
     site=html.at_xpath('//tr/td[text()="Сайт"]').try(:next_element).try(:text)
    @contacts_count+=1 if  place.create_contact(:address=> address, :tel=>tel, :mail=>mail ,:site=>site ,:location=>location)
    place.save!
-  @place_count +=1
+  @places_count+=1
 
     place
   end
@@ -81,7 +82,7 @@ module ParseHelper
       item.info = info.to_html(:encoding => 'UTF-8')   if info
       item.auto_load= 1
       item.save!
-      @items_count+=1
+      @items_count +=1
     else
       p  "#{item.title} -- уже есть в базе"
     end
