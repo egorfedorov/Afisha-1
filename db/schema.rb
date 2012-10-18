@@ -70,7 +70,6 @@ ActiveRecord::Schema.define(:version => 20121016123403) do
     t.string   "mail"
     t.string   "site"
     t.string   "address"
-    t.string   "location"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

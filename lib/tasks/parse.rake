@@ -33,10 +33,18 @@ namespace :parser  do
     task :item_parse  =>:environment  do  |t , arg|
 
     include  ParseHelper
-
+    #-----------------------------------
     domen = 'http://www.redom.ru'
     html =   Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
 
+    @galleries_count = 0
+    @items_count = 0
+    @images_count = 0
+    @places_cunt = 0
+    @events_count = 0
+    @contacts_count =  0
+    @my_logger ||= Logger.new("#{Rails.root}/log/parse.log")
+    #----------------------------------
 
       parent_cat = html.xpath("//table[@class='catlist']/tr/td/span").text
 
@@ -46,49 +54,22 @@ namespace :parser  do
     event_list.each do |elem|      # Пробегаем по списку мероприятий
 
          event_url =domen + elem.css('h2 a').first['href']
-
-         next  if Item.find_by_title(elem.parent.css('.action a').first.text) # Пропускаем если уже есть такой item
-
-        event_entire =  Nokogiri::HTML(open(event_url))     #Заходим в событие
+         event_html =  Nokogiri::HTML(open(event_url))     #Заходим в событие
 
 
-         p  event_name = event_entire.css('h1.black').text
 
-         item = Item.new(:title =>event_name)
-   #############################################
-        cat_event = event_entire.css("td.action-reference small.genre").text
-
-        cat_event.split(',').each do |cat|
-          #p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
-           Category.create(:name=>cat.strip ,:parent_id=>Category.find_by_name(parent_cat).id,:type_id=>1)    unless Category.find_by_name(cat.strip)
-          item.category << Category.find_by_name(cat.strip)
-
-        end
-
-      item.category << Category.find_by_name(parent_cat) if  cat_event.empty?
-  ######################################3333
-
-
-      desc = event_entire.at_css('div.action-description p')
-      info = event_entire.at_css('table.cells.reference')
-
-      item.full_text=desc.to_html(:encoding => 'UTF-8') if desc
-      item.info = info.to_html(:encoding => 'UTF-8')   if info
-      item.auto_load= 1
-      item.save!
-
-      #################################
-
-      gallery =  ParseHelper.gallery_parse(event_url)
-
+    #####################################
+        item =   ParseHelper.item_parse(parent_cat, '' , event_html)
+    #################################
+      gallery =  ParseHelper.gallery_parse('',event_html)
        gallery.item = item
       gallery.save!
-      #################################
-
-      item.save!
+     #################################
 
 
-      event_data =  event_entire.css('h6 span.red')
+
+
+      event_data =  event_html.css('h6 span.red')
 
       event_data.each do |d|
        data = d.text.split(',').first
@@ -105,22 +86,35 @@ namespace :parser  do
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',','').strip
            event =  Event.new
-          p  event.name="#{place_name}/#{room_name} - #{event_name}"
+          p  event.name="#{place_name}/#{room_name} - #{item.title}"
           p  event.date_begin = "#{data}  #{time1}"
             event.items = [item]
             event.auto_load= 1
             event.place =place_o
-            event.save!
+           if  event.save
+             @events_count +=1
+           else
+             p  "#{event.name} -- уже есть в базе"
+
+           end
 
             if place.next_element.css('a')
 
               place.next_element.css('a').each do |a|
                 p a.text
-                item = Item.find_by_title(a.text)
+              #Todo Проверить этот код
+              unless  item = Item.find_by_title(a.text)
+                 item =   ParseHelper.item_parse(parent_cat,a['href'])
+              end
+
                 p item.title
                 event.items << item  if item
+
                 event.name = "Нон-стоп #{} "
-                event.save!
+              if  event.save
+                @events_count +=1
+              else
+                p  "#{event.name} -- уже есть в базе"
               end
             end
 
@@ -129,9 +123,16 @@ namespace :parser  do
 
 
           p "-----------"
+          end
         end
       end
-      break
+
+
+
+      p "-----------------------------------"
+      p "Items:#{@items_count}, Событий:#{@events_count}, Галерей:#{@galleries_count}, Картинок:#{@images_count} "
+
+    break
 
 
 

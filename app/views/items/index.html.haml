@@ -8,7 +8,7 @@
         %h4=item.title
         -item.category.each do |cat|
           =link_to cat.name
-        =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
+        =image_tag item.galleries.first.images.first.image.url('medium') unless item.galleries.empty?
         -#.small
         = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
     - if   i.multiple_of?(3)
