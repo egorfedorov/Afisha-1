@@ -7,6 +7,7 @@ class Item < ActiveRecord::Base
   has_one :place
   validates :title , :uniqueness => true
   belongs_to :type
+  has_many :images  , :through => :galleries
 
   def full_category
 

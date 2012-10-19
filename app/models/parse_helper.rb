@@ -2,7 +2,20 @@
 module ParseHelper
 
 
-#Пасрит место проведения мероприятия
+    attr :galleries_count
+    #attr :item_count
+    #attr_accessor :images_count , :images_count
+  @@galleries_count = 0
+  @@items_count = 0
+  @@images_count = 0
+  @@places_count = 0
+  @@events_count = 0
+  @@contacts_count = 0
+
+
+
+
+#Парсит место проведения мероприятия
  def place_parse (url)
     html =   Nokogiri::HTML(open(url))
     name = html.css('h1').text
@@ -15,9 +28,9 @@ module ParseHelper
     tel=html.at_xpath('//tr/td[text()="Телефон"]').try(:next_element).try(:text)
     mail=html.at_xpath('//tr/td[text()="E-mail"]').try(:next_element).try(:text)
     site=html.at_xpath('//tr/td[text()="Сайт"]').try(:next_element).try(:text)
-   @contacts_count+=1 if  place.create_contact(:address=> address, :tel=>tel, :mail=>mail ,:site=>site ,:location=>location)
+   @@contacts_count+=1 if  place.create_contact(:address=> address, :tel=>tel, :mail=>mail , :site=>site , :location=>location)
    place.save!
-  @places_count+=1
+  @@places_count+=1
 
     place
   end
@@ -44,14 +57,14 @@ module ParseHelper
        im.image =open image.parent['href']
        im.gallery = gallery
        im.save!
-       @images_count+=1
+       @@images_count+=1
      end   if images
 
       gallery.save!
-     @galleries_count+=1
+     @@galleries_count+=1
    else
 
-     p  "#{gallery.name} -- уже есть в базе"
+     p  "Гелерея- #{gallery.name} -- уже есть в базе"
    end
 
    gallery
@@ -82,7 +95,7 @@ module ParseHelper
       item.info = info.to_html(:encoding => 'UTF-8')   if info
       item.auto_load= 1
       item.save!
-      @items_count +=1
+      @@items_count +=1
     else
       p  "#{item.title} -- уже есть в базе"
     end

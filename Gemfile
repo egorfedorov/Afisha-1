@@ -41,6 +41,7 @@ gem 'haml'
 
 gem 'nokogiri'
 
+gem 'russian', '~> 0.6.0'
 #gem 'will_paginate', '~> 3.0'
 #gem 'kaminari'
 

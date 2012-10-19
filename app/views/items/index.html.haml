@@ -5,7 +5,7 @@
   -@items.each do  |item| i+=1
     .span3
       .well
-        %h4=item.title
+        %h4=link_to item.title , item_path(item) , :title=>item.title
         -item.category.each do |cat|
           =link_to cat.name
         =image_tag item.galleries.first.images.first.image.url('medium') unless item.galleries.empty?

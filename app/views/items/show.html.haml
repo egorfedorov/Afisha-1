@@ -1,17 +1,19 @@
 %p#notice= notice
+-#TODO Сделать жадную загрузку вложенных моделей
+%h1=@item.title
+-@item.category.each do |cat|
+  .path=link_to cat.name
+-Russian::localize
+.img_float= image_tag @item.images.first.image.url('medium')
 
 %p
-  %b title:
-  = @item.title
-%p
-  %b Full text:
-  = @item.full_text
-%p
-  %b Date:
-  = @item.date
-%p
-  %b Type:
-  = @item.type_id
+  = @item.full_text.html_safe
 
+%p
+  - @item.events.each do |event|
+    .small= "#{ event.date_begin.strftime("%R %A %d-%B-%Y") } #{event.place.name}"
+    .small=event.date_begin.strftime("%B")
 \|
 = link_to 'Back', items_path
+
+

@@ -31,16 +31,16 @@ namespace :parser do
 
   desc "Parse  событий "
   task :item_parse => :environment do |t, arg|
-    @galleries_count = 0
-    @items_count = 0
-    @images_count = 0
-    @places_count = 0
-    @events_count = 0
-    @contacts_count = 0
-    extend ParseHelper
+
+    @@events_count = 0
+
+    include ParseHelper
     #-----------------------------------
+    #input_url = 'http://www.redom.ru/afisha/today/exhibitions/'
+    input_url = 'http://www.redom.ru/afisha/month/shows/'
     domen = 'http://www.redom.ru'
-    html = Nokogiri::HTML(open("http://www.redom.ru/afisha/week/cinema/"))
+
+    html = Nokogiri::HTML(open(input_url))
 
 
     #----------------------------------
@@ -88,7 +88,7 @@ namespace :parser do
             event.auto_load= 1
             event.place =place_o
             if  event.save
-              @events_count =@events_count+1
+              @@events_count +=1
             else
               p "#{event.name} -- уже есть в базе"
 
@@ -109,7 +109,7 @@ namespace :parser do
 
                 event.name = "Нон-стоп #{} "
                 if  event.save
-                  @events_count=@events_count+1
+                  @@events_count+=1
                 else
                   p "#{event.name} -- уже есть в базе"
                 end
@@ -124,12 +124,12 @@ namespace :parser do
         end
       end
 
-      next if @events_count < 1
+      #next if @@events_count < 1
 
       p "-----------------------------------"
-      p "Items:#{@items_count},  Событий:#{@events_count}, Галерей:#{@galleries_count},   Картинок:#{@images_count}, Мест:#{@places_count} Контактов:#{@contacts_count} "
+      p "Items:#{@@items_count},  Событий:#{@@events_count}, Галерей:#{@@galleries_count},   Картинок:#{@@images_count}, Мест:#{@@places_count} Контактов:#{@@contacts_count} "
 
-      break
+      #break
 
 
     end
