@@ -49,6 +49,7 @@ module ParseHelper
      im.image = open image1['href']
      im.gallery = gallery
      im.save!
+     @@images_count+=1
     end
 
      images =item_html.css('td.action-picture div.trailers a img')

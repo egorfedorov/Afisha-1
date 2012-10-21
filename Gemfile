@@ -31,7 +31,7 @@ gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem "html_truncator"
 
 
-
+gem "table_builder"
 gem 'awesome_nested_set'
 gem 'jquery-rails'
 gem 'pg'

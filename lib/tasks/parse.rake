@@ -36,8 +36,10 @@ namespace :parser do
 
     include ParseHelper
     #-----------------------------------
-    #input_url = 'http://www.redom.ru/afisha/today/exhibitions/'
-    input_url = 'http://www.redom.ru/afisha/month/shows/'
+    #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
+    #input_url = 'http://www.redom.ru/afisha/month/shows/'
+    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    input_url = 'http://www.redom.ru/afisha/month/concerts/'
     domen = 'http://www.redom.ru'
 
     html = Nokogiri::HTML(open(input_url))
@@ -49,10 +51,14 @@ namespace :parser do
 
     event_list = html.css('td.action') #Список мероприятий
 
+    temp_array = [];
 
     event_list.each do |elem| # Пробегаем по списку мероприятий
 
       event_url =domen + elem.css('h2 a').first['href']
+
+      next if temp_array.include?(event_url)  #Пропускаем поиск , если уже ходили по этому url
+      temp_array << event_url
       event_html = Nokogiri::HTML(open(event_url)) #Заходим в событие
 
 
@@ -79,6 +85,9 @@ namespace :parser do
 
           place_o = Place.find_by_name(place_name) || place_parse(place_url)
 
+          if room_name
+            Room.where(:place_id => place_o.id, :name=>room_name ) || Room.create(:name=> room_name, :place=>place_o)
+          end
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',', '').strip
             event = Event.new
@@ -90,28 +99,28 @@ namespace :parser do
             if  event.save
               @@events_count +=1
             else
-              p "#{event.name} -- уже есть в базе"
+              p "Событие #{event.name} -- уже есть в базе"
 
             end
 
 
-            if place.next_element.css('a')
+            if nonstop = place.next_element.css('a')
 
               place.next_element.css('a').each do |a|
                 p a.text
                 #Todo Проверить этот код
                 unless  item = Item.find_by_title(a.text)
-                  item = item_parse(parent_cat, a['href'])
+                  item = item_parse(parent_cat, domen+a['href'])
                 end
 
                 p item.title
                 event.items << item if item
 
-                event.name = "Нон-стоп #{} "
+                event.name = "Нон-стоп #{nonstop.text} "
                 if  event.save
                   @@events_count+=1
                 else
-                  p "#{event.name} -- уже есть в базе"
+                  p "Событие #{event.name} -- уже есть в базе"
                 end
 
               end if  place.next_element
@@ -133,7 +142,7 @@ namespace :parser do
 
 
     end
-
+   p "Поиск осуществлен по  #{temp_array.count} станицам"
 
   end
 

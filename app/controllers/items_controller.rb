@@ -2,7 +2,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    @items = Item.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,7 +13,8 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.find(params[:id])
+    @item = Item.includes(:places=>[:events]).find(params[:id])
+     @places = @item.places
 
     respond_to do |format|
       format.html # show.html.erb

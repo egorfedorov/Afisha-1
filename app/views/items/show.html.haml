@@ -1,9 +1,9 @@
 %p#notice= notice
--#TODO Сделать жадную загрузку вложенных моделей
+
 %h1=@item.title
--@item.category.each do |cat|
+-@item.categories.each do |cat|
   .path=link_to cat.name
--Russian::localize
+
 .img_float= image_tag @item.images.first.image.url('medium')
 
 %p
@@ -11,9 +11,23 @@
 
 %p
   - @item.events.each do |event|
-    .small= "#{ event.date_begin.strftime("%R %A %d-%B-%Y") } #{event.place.name}"
-    .small=event.date_begin.strftime("%B")
+    .row
+      .span3
+        .small= localize(event.date_begin, :format => "%R %A %d-%B-%Y")
+        .small=link_to  event.place.name , place_path(event.place)
+
+
 \|
 = link_to 'Back', items_path
+
+- calendar_for(@item.events) do |t|
+  .test= t.head('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
+  - t.day(:day_method => :date_begin) do |day, tasks|
+    .day= day.day
+    -tasks.each do |task|
+      .te= h(task.name)
+
+
+
 
 

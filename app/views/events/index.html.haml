@@ -3,10 +3,10 @@
 .row
   - i=0
   -@events.each do  |event|  item = event.items.first
-    .span6
+    .span3
       .well
-        %h4=item.name
-        -item.category.each do |cat|
+        %h4=item.title
+        -item.categories.each do |cat|
           =link_to cat.name
         =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
         -#.small
