@@ -10,24 +10,28 @@
   = @item.full_text.html_safe
 
 %p
-  - @item.events.each do |event|
-    .row
-      .span3
-        .small= localize(event.date_begin, :format => "%R %A %d-%B-%Y")
-        .small=link_to  event.place.name , place_path(event.place)
+  -prev_date=''
+  - @events.each do |event|
+    -if event.date_begin.to_date == prev_date
+      .row
+        .span3
+          .small=link_to  event.place.name , place_path(event.place)
+          .small= localize(event.date_begin, :format => "%R")
+    -else
+      .row
+        .span3
+          %h4= localize(event.date_begin, :format => "%d-%B-%Y")
+          .small=link_to  event.place.name , place_path(event.place)
+          .small= localize(event.date_begin, :format => "%R")
 
+    -prev_date = event.date_begin.to_date
 
 \|
 = link_to 'Back', items_path
 
-- calendar_for(@item.events) do |t|
-  .test= t.head('mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun')
-  - t.day(:day_method => :date_begin) do |day, tasks|
-    .day= day.day
-    -tasks.each do |task|
-      .te= h(task.name)
 
 
+-#TODO В некоторых местах еще ругается если нет изображения
 
 
 

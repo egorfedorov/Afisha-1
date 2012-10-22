@@ -84,10 +84,10 @@ module ParseHelper
       cat_item.split(',').each do |cat|
         #p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
         Category.create(:name=>cat.strip ,:parent_id=>Category.find_by_name(parent_cat).id,:type_id=>1)    unless Category.find_by_name(cat.strip)
-        item.category << Category.find_by_name(cat.strip)
+        item.categories << Category.find_by_name(cat.strip)
       end
 
-      item.category << Category.find_by_name(parent_cat) if  cat_item.empty?
+      item.categories << Category.find_by_name(parent_cat) if  cat_item.empty?
 
       desc = item_html.at_css('div.action-description p')
       info = item_html.at_css('table.cells.reference')

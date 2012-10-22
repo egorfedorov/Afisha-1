@@ -13,8 +13,10 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.includes(:places=>[:events]).find(params[:id])
-     @places = @item.places
+    @item = Item.includes(:events=>:place,).order('events.date_begin','places.id').find(params[:id])
+
+    @events = @item.events
+
 
     respond_to do |format|
       format.html # show.html.erb

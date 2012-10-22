@@ -38,8 +38,8 @@ namespace :parser do
     #-----------------------------------
     #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
-    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
-    input_url = 'http://www.redom.ru/afisha/month/concerts/'
+    input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    #input_url = 'http://www.redom.ru/afisha/month/concerts/'
     domen = 'http://www.redom.ru'
 
     html = Nokogiri::HTML(open(input_url))
@@ -81,12 +81,12 @@ namespace :parser do
 
           t1 = place.text.split('/')
           place_name = t1.first.strip
-          room_name = t1.last.strip if t1[1]
+        p  room_name = t1.last.strip if t1[1]
 
           place_o = Place.find_by_name(place_name) || place_parse(place_url)
 
           if room_name
-            Room.where(:place_id => place_o.id, :name=>room_name ) || Room.create(:name=> room_name, :place=>place_o)
+            Room.where(:place_id => place_o.id, :name=>room_name ).first || Room.create(:name=> room_name, :place_id=>place_o.id)
           end
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',', '').strip
