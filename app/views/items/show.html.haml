@@ -28,8 +28,17 @@
 
 \|
 = link_to 'Back', items_path
-
 =schedule(@item)
+-#-schedule(@item).each  do |k , places|
+-#  .row
+-#    .span3
+-#      %h4= localize(k, :format => "%d-%B-%Y")
+-#      -places.each do |place ,events|
+-#        .row
+-#          .span3
+-#            =place.name
+-#        -events.each do |event|
+-#          =localize(event.date_begin, :format => "%R")
 
 -#TODO В некоторых местах еще ругается если нет изображения
 

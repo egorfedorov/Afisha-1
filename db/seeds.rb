@@ -6,31 +6,4 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-Event.create ( [
-    {:name => 'event1' },
-    {:name => 'event2' } ,
-    {:name => 'event3' }
-
-             ])
-Item.create([
-    {:title =>'item1' },
-    {:title =>'item2' },
-    {:title =>'item3' }
-            ])
-
-Place.create([
-    {:name =>'place1' },
-    {:name =>'place2' },
-    {:name =>'place3' }
-            ])
-Category.create([
-    {:name =>'Category1', :type_id=>1 },
-    {:name =>'Category2', :type_id=>2},
-    {:name =>'Category3', :type_id=>3},
-         ])
-Type.create([
-    {:name =>'events'},
-    {:name =>'items'},
-    {:name =>'places'},
-         ])
 

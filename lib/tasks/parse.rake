@@ -54,9 +54,11 @@ namespace :parser do
     temp_array = [];
 
     event_list.each do |elem| # Пробегаем по списку мероприятий
+      event = nil
+      item= nil
 
       event_url =domen + elem.css('h2 a').first['href']
-      #event_url ='http://www.redom.ru/afisha/details/8892/'
+      #event_url ='http://www.redom.ru/afisha/details/8891/'
 
       next if temp_array.include?(event_url)  #Пропускаем поиск , если уже ходили по этому url
       temp_array << event_url
@@ -95,18 +97,15 @@ namespace :parser do
             event = Event.new
             p event.name="#{item.title}"
             p event.date_begin = "#{data}  #{time1}"
-            event.items = [item] if  place.next_element.css('a').empty?
+            event.items = [item] if  place.next_element.css('a').blank?
+            if item.blank?
+              raise "Почему то итем не найжен и не спарсен "
+            end
             event.auto_load= 1
             event.place =place_o
             event.room=room
-              if  event.save
-                @@events_count +=1
-              else
-                p "Событие #{event.name} -- уже есть в базе"
-              end
 
             if  place.next_element.css('a')
-
               place.next_element.css('a').each do |a|
                 p a.text
                 #Todo Проверить этот код
@@ -115,15 +114,14 @@ namespace :parser do
                 end
 
                 event.name = "Нон-стоп"
-                  if  event.save
-
-                    event.items << item2 if item2
-                  else
-                    p "Событие #{event.name} -- уже есть в базе"
-                  end
+                event.items << item2 if item2
               end
-
            end
+            if  event.save
+              @@events_count +=1
+            else
+              p "Событие #{event.name} -- уже есть в базе"
+            end
 
 
 
