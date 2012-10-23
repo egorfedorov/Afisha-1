@@ -56,6 +56,7 @@ namespace :parser do
     event_list.each do |elem| # Пробегаем по списку мероприятий
 
       event_url =domen + elem.css('h2 a').first['href']
+      #event_url ='http://www.redom.ru/afisha/details/8892/'
 
       next if temp_array.include?(event_url)  #Пропускаем поиск , если уже ходили по этому url
       temp_array << event_url
@@ -86,50 +87,53 @@ namespace :parser do
           place_o = Place.find_by_name(place_name) || place_parse(place_url)
 
           if room_name
-            Room.where(:place_id => place_o.id, :name=>room_name ).first || Room.create(:name=> room_name, :place_id=>place_o.id)
+           room = Room.where(:place_id => place_o.id, :name=>room_name ).first || Room.create(:name=> room_name, :place_id=>place_o.id)
           end
+
           place.next_element.css('b').each do |time2|
             time1= time2.text.gsub(',', '').strip
             event = Event.new
-            p event.name="#{place_name}/#{room_name} - #{item.title}"
+            p event.name="#{item.title}"
             p event.date_begin = "#{data}  #{time1}"
-            event.items = [item]
+            event.items = [item] if  place.next_element.css('a').empty?
             event.auto_load= 1
             event.place =place_o
-            if  event.save
-              @@events_count +=1
-            else
-              p "Событие #{event.name} -- уже есть в базе"
+            event.room=room
+              if  event.save
+                @@events_count +=1
+              else
+                p "Событие #{event.name} -- уже есть в базе"
+              end
 
-            end
-
-
-            if nonstop = place.next_element.css('a')
+            if  place.next_element.css('a')
 
               place.next_element.css('a').each do |a|
                 p a.text
                 #Todo Проверить этот код
-                unless  item = Item.find_by_title(a.text)
-                  item = item_parse(parent_cat, domen+a['href'])
+                unless  item2 = Item.find_by_title(a.text)
+                  item2 = item_parse(parent_cat, domen+a['href'])
                 end
 
-                p item.title
-                event.items << item if item
+                event.name = "Нон-стоп"
+                  if  event.save
 
-                event.name = "Нон-стоп #{nonstop.text} "
-                if  event.save
-                  @@events_count+=1
-                else
-                  p "Событие #{event.name} -- уже есть в базе"
-                end
+                    event.items << item2 if item2
+                  else
+                    p "Событие #{event.name} -- уже есть в базе"
+                  end
+              end
 
-              end if  place.next_element
+           end
 
-            end
+
+
+
 
 
             p "-----------"
           end
+
+
         end
       end
 

@@ -82,9 +82,9 @@ module ParseHelper
       cat_item = item_html.css("td.action-reference small.genre").text
 
       cat_item.split(',').each do |cat|
-        #p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
-        Category.create(:name=>cat.strip ,:parent_id=>Category.find_by_name(parent_cat).id,:type_id=>1)    unless Category.find_by_name(cat.strip)
-        item.categories << Category.find_by_name(cat.strip)
+      #break   p("Категория не найдена - #{cat}") unless Category.find_by_name(cat.strip)
+      cat =  Category.find_by_name(cat.strip) ||  Category.create(:name=>cat.strip ,:parent_id=>Category.find_by_name(parent_cat).id,:type_id=>1)
+        item.categories << cat
       end
 
       item.categories << Category.find_by_name(parent_cat) if  cat_item.empty?
@@ -97,6 +97,13 @@ module ParseHelper
       item.auto_load= 1
       item.save!
       @@items_count +=1
+      if item.galleries.empty?
+       g = gallery_parse('',item_html)
+
+       item.galleries << g
+
+
+      end
     else
       p  "#{item.title} -- уже есть в базе"
     end

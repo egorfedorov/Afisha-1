@@ -12,8 +12,17 @@ ActiveAdmin.register Item do
       sanitize item.info
       #item.info.sanitize.html_safe
     end
+
     column 'Desc' do |item|
        HTML_Truncator.truncate( item.full_text ,50 ).html_safe
+    end
+
+    column :Category do |item|
+       l = []
+      item.categories.each do |c|
+         l << link_to(c.name ,category_path(c))
+       end if !item.categories.empty?
+       l.join(',').html_safe
     end
     column :auto_load
     column :type

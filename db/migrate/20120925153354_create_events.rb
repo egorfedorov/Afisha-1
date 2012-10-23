@@ -8,6 +8,7 @@ class CreateEvents < ActiveRecord::Migration
       t.datetime :date_begin
       t.datetime :date_end
       t.boolean :auto_load
+      t.integer :room_id
       t.timestamps
     end
   end
