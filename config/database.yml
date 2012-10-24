@@ -20,7 +20,7 @@ test:
      adapter: postgresql
      encoding: unicode
      host: localhost
-     database: Afisha
+     database: Afisha_test
      pool: 5
      username: Afisha
      password: afisha

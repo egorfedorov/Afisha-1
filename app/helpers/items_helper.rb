@@ -2,18 +2,25 @@ module ItemsHelper
 
 
 def schedule(item)
-  hash = {}
+  hash = Hash.new { |hash, key| hash[key]=Hash.new{|h,k| h[k]=[] }}
   item.events.each do |e|
    date =   e.date_begin.to_date
    place = e.place
-   hash.merge! {date}
-   hash[date].merge! {place.name}
-     #hash[date][place.name] << e.date_begin.to_s
+   time = e.date_begin.strftime('%R')
+  hash[date][place] << time
   end
     hash
 end
 
+def schedule2(item)
 
+ item.events.group_by{|e| e.date_begin.to_date}.map do |k,v|
+  {k=> v.group_by{|e| e.place.name}.map{|k2, v2|
+    {k2 => v2.map{|event| event.date_begin.strftime('%R')}} }
+  }
+
+  end
+end
 
 
 end

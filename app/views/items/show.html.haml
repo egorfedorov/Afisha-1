@@ -9,36 +9,41 @@
 %p
   = @item.full_text.html_safe
 
-%p
-  -prev_date=''
-  - @events.each do |event|
-    -if event.date_begin.to_date == prev_date
-      .row
-        .span3
-          .small=link_to  event.place.name , place_path(event.place)
-          .small= localize(event.date_begin, :format => "%R")
-    -else
-      .row
-        .span3
-          %h4= localize(event.date_begin, :format => "%d-%B-%Y")
-          .small=link_to  event.place.name , place_path(event.place)
-          .small= localize(event.date_begin, :format => "%R")
 
-    -prev_date = event.date_begin.to_date
 
 \|
 = link_to 'Back', items_path
 =schedule(@item)
--#-schedule(@item).each  do |k , places|
--#  .row
--#    .span3
--#      %h4= localize(k, :format => "%d-%B-%Y")
--#      -places.each do |place ,events|
--#        .row
--#          .span3
--#            =place.name
--#        -events.each do |event|
--#          =localize(event.date_begin, :format => "%R")
+-schedule(@item).each  do |k , places|
+  .row
+    .span3
+      %h4= localize(k, :format => "%d-%B-%Y")
+      -places.each do |place ,events|
+        .row
+          .span3
+            =place.name
+        -events.each do |event|
+          =event
+=schedule2(@item)
+
+-#:ruby
+-#   require 'benchmark'
+-#
+-#  Benchmark.bmbm do |x|
+-#    x.report("Benchmark 1") do
+-#      10000.times do
+-#       schedule(@item)
+-#      end
+-#    end
+-#    x.report("Benchmark 2") do
+-#         10000.times do
+-#          schedule2(@item)
+-#         end
+-#       end
+-#
+-#
+-#  end
+
 
 -#TODO В некоторых местах еще ругается если нет изображения
 
