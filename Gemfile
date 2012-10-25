@@ -35,7 +35,7 @@ gem 'pg'
 gem "devise"
 gem 'cancan'
 gem 'haml'
-#gem "squeel"
+gem "squeel"
 gem 'nokogiri'
 
 gem 'russian', '~> 0.6.0'

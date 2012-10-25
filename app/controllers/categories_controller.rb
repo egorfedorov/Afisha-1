@@ -15,8 +15,10 @@ class CategoriesController < ApplicationController
   # GET /categories/1.json
   def show
     @category = Category.find(params[:id])
-    @items= Item.includes(:categories).where(:categories_items=>{:category_id =>Category.find(params[:id]).self_and_descendants})
+    items= Item.joins(:categories).where(:categories_items=>{:category_id =>Category.find(params[:id]).self_and_descendants})
+    #@items= Item.joins(:categories).includes(:galleries=>:images).where(:categories_items=>{:category_id =>Category.find(params[:id]).self_and_descendants})
 
+    @items=Item.includes(:categories,:galleries=>:images).where{id.in(items.select{id})}
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @category }

@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.json
   def show
-    @item = Item.includes(:events=>:place).order('events.date_begin','places.id').find(params[:id])
+    @item = Item.includes(:events=>[:place,:room]).order('events.date_begin','places.id').find(params[:id])
 
     @events = @item.events
 
