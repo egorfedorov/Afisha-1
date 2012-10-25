@@ -13,18 +13,20 @@
 
 \|
 = link_to 'Back', items_path
-=schedule(@item)
+-#=schedule(@item)
 -schedule(@item).each  do |k , places|
   .row
     .span3
       %h4= localize(k, :format => "%d-%B-%Y")
-      -places.each do |place ,events|
+      -places.each do |place ,rooms|
         .row
           .span3
             =place.name
-        -events.each do |event|
-          =event
-=schedule2(@item)
+        -rooms.each do |room, times|
+          =room.try :name
+          -times.each do |time|
+            =time
+-#=schedule2(@item)
 
 -#:ruby
 -#   require 'benchmark'

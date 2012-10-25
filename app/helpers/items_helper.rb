@@ -2,12 +2,13 @@ module ItemsHelper
 
 
 def schedule(item)
-  hash = Hash.new { |hash, key| hash[key]=Hash.new{|h,k| h[k]=[] }}
+  hash = Hash.new { |hash, key| hash[key]=Hash.new{|h,k| h[k]=Hash.new{|h2, k2| h2[k2]=[] } }}
   item.events.each do |e|
    date =   e.date_begin.to_date
    place = e.place
+   room = e.room
    time = e.date_begin.strftime('%R')
-  hash[date][place] << time
+  hash[date][place][room] << time
   end
     hash
 end
