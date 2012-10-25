@@ -14,4 +14,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
+//= require jquery.ui.nestedSortable
+//= require sortable/base
 //= require_tree .

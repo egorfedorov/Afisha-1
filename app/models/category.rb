@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
   acts_as_nested_set
+  include TheSortableTree::Scopes
   attr_accessible :desc, :name, :type_id   ,:parent_id
 
   validates :name , :uniqueness => true

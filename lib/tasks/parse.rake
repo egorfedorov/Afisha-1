@@ -38,8 +38,11 @@ namespace :parser do
     #-----------------------------------
     #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
-    input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
     #input_url = 'http://www.redom.ru/afisha/month/concerts/'
+    #input_url = 'http://www.redom.ru/afisha/month/parties/'
+    input_url = 'http://www.redom.ru/afisha/month/education/'
+
     domen = 'http://www.redom.ru'
 
     html = Nokogiri::HTML(open(input_url))
