@@ -14,7 +14,8 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @category = Category.include(:events).find(params[:id]).self_and_descendants
+    @category = Category.find(params[:id])
+    @items= Item.includes(:categories).where(:categories_items=>{:category_id =>Category.find(params[:id]).self_and_descendants})
 
     respond_to do |format|
       format.html # show.html.erb

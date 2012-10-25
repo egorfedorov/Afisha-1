@@ -6,7 +6,6 @@ class CreateItems < ActiveRecord::Migration
       t.text :info
       t.datetime :date
       t.integer :type_id
-      t.integer :category_id
       t.boolean :auto_load
       t.timestamps
     end

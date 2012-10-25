@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121021120612) do
+ActiveRecord::Schema.define(:version => 20121025091630) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -127,10 +127,9 @@ ActiveRecord::Schema.define(:version => 20121021120612) do
     t.text     "info"
     t.datetime "date"
     t.integer  "type_id"
-    t.integer  "category_id"
     t.boolean  "auto_load"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "places", :force => true do |t|
