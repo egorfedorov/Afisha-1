@@ -11,7 +11,7 @@ group :assets do
   gem 'twitter-bootstrap-rails', :git => 'git://github.com/seyhunak/twitter-bootstrap-rails.git'
 
   gem 'therubyracer', :platforms => :ruby
-  gem "simple-navigation"
+
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -27,6 +27,7 @@ gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 
 gem "html_truncator"
 
+gem 'simple-navigation-bootstrap'
 
 gem 'awesome_nested_set'
 gem 'the_sortable_tree'

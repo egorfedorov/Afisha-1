@@ -8,7 +8,7 @@ class Category < ActiveRecord::Base
     if value
        cat = Category.find(value)
        record.errors.add(attr, 'it  should not refer to itself') if record.id == value
-       record.errors.add(attr, 'must same type') if cat.type_id != record.type_id
+       record.errors.add(attr, 'it should same type') if cat.type_id != record.type_id
     end
 
   end
@@ -27,6 +27,10 @@ class Category < ActiveRecord::Base
 
   end
 
+  def items_in_category
+    items= Item.joins(:categories).where(:categories_items=>{:category_id =>self.self_and_descendants})
+    Item.includes(:categories,:galleries=>:images).where{id.in(items.select{id})}
+  end
 
 
 end
