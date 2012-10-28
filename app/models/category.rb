@@ -28,8 +28,9 @@ class Category < ActiveRecord::Base
   end
 
   def items_in_category
+
     items= Item.joins(:categories).where(:categories_items=>{:category_id =>self.self_and_descendants})
-    Item.includes(:categories,:galleries=>:images).where{id.in(items.select{id})}
+    Item.includes(:categories,:galleries=>:images).where(:id=>(items.select{id}))
   end
 
 

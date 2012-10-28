@@ -1,4 +1,6 @@
-=paginate( @items )
+-#=paginate( @items )
 %h1= @category.name
-=render "shared/items"
-=paginate( @items )
+-#=render "shared/items"
+-#=paginate( @items )
+- @result.each do |k, v|
+  =k

@@ -16,8 +16,11 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.find(params[:id])
 
-    @items=@category.items_in_category.page(params[:page])
-
+    #@items=@category.items_in_category.page(params[:page])
+    #@items=@category.items_in_category
+    Rails.cache.fetch('schedule', :expires_in => 24.hours) do
+      @schedule = Schedule.get_by_category(@category)
+    end
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @category }

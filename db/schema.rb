@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121025091630) do
+ActiveRecord::Schema.define(:version => 20121028074215) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.string   "resource_id",   :null => false
@@ -67,10 +67,14 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
     t.datetime "updated_at", :null => false
   end
 
+  add_index "categories", ["parent_id"], :name => "index_categories_on_parent_id"
+
   create_table "categories_items", :id => false, :force => true do |t|
     t.integer "item_id"
     t.integer "category_id"
   end
+
+  add_index "categories_items", ["item_id", "category_id"], :name => "index_categories_items_on_item_id_and_category_id"
 
   create_table "contacts", :force => true do |t|
     t.integer  "place_id"
@@ -85,7 +89,6 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
 
   create_table "events", :force => true do |t|
     t.string   "name"
-    t.integer  "item_id"
     t.integer  "place_id"
     t.integer  "category_id"
     t.datetime "date_begin"
@@ -96,10 +99,15 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "events", ["place_id"], :name => "index_events_on_place_id"
+  add_index "events", ["room_id"], :name => "index_events_on_room_id"
+
   create_table "events_items", :id => false, :force => true do |t|
     t.integer "item_id"
     t.integer "event_id"
   end
+
+  add_index "events_items", ["item_id", "event_id"], :name => "index_events_items_on_item_id_and_event_id"
 
   create_table "galleries", :force => true do |t|
     t.string   "name"
@@ -109,6 +117,8 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  add_index "galleries", ["item_id"], :name => "index_galleries_on_item_id"
 
   create_table "images", :force => true do |t|
     t.string   "name"
@@ -120,6 +130,8 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
   end
+
+  add_index "images", ["gallery_id"], :name => "index_images_on_gallery_id"
 
   create_table "items", :force => true do |t|
     t.string   "title"
@@ -142,6 +154,9 @@ ActiveRecord::Schema.define(:version => 20121025091630) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "places", ["category_id"], :name => "index_places_on_category_id"
+  add_index "places", ["contact_id"], :name => "index_places_on_contact_id"
 
   create_table "rooms", :force => true do |t|
     t.string   "name"

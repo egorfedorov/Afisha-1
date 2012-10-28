@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  attr_accessible :title, :date, :full_text  , :category_id , :type_id   , :info , :auto_load
+  attr_accessible :title, :date, :full_text  , :type_id   , :info , :auto_load
   has_and_belongs_to_many :categories
   has_many :galleries , :include => :images
   has_and_belongs_to_many :events  , :order=> 'date_begin'
@@ -14,5 +14,10 @@ class Item < ActiveRecord::Base
   def main_image
     self.try(:galleries).try(:first).try(:images).try(:first).try(:image)
   end
+
+
+  def schedule
+    Schedule.get_by_item(self)
+   end
 
 end

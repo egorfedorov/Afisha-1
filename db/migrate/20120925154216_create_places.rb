@@ -5,7 +5,6 @@ class CreatePlaces < ActiveRecord::Migration
       t.integer :category_id
       t.text :desc
       t.integer :contact_id
-      t.integer :item_id
       t.boolean :auto_load
       t.timestamps
     end

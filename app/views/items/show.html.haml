@@ -14,7 +14,7 @@
 \|
 = link_to 'Back', items_path
 -#=schedule(@item)
--schedule(@item).each  do |k , places|
+-@item.schedule.each  do |k , places|
   .row
     .span3
       %h4= localize(k, :format => "%d-%B-%Y")

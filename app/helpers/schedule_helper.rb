@@ -13,6 +13,7 @@ module ScheduleHelper
     hash
   end
 
+  # Этот вариант тестовый . В данный момент не используется .
   def schedule2(item)
 
     item.events.group_by{|e| e.date_begin.to_date}.map do |k,v|
@@ -22,6 +23,8 @@ module ScheduleHelper
 
     end
   end
+
+
 
 
 end

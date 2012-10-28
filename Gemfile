@@ -19,7 +19,9 @@ group :development do
   gem 'haml-rails'
   gem 'hirb'
   gem 'rdoc'
+  gem "bullet"
 end
+gem 'dalli'
 
 gem 'activeadmin'
 
@@ -38,6 +40,7 @@ gem 'cancan'
 gem 'haml'
 gem "squeel"
 gem 'nokogiri'
+
 
 gem 'russian', '~> 0.6.0'
 

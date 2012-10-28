@@ -40,8 +40,8 @@ namespace :parser do
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
     #input_url = 'http://www.redom.ru/afisha/week/cinema/'
     #input_url = 'http://www.redom.ru/afisha/month/concerts/'
-    #input_url = 'http://www.redom.ru/afisha/month/parties/'
-    input_url = 'http://www.redom.ru/afisha/month/education/'
+    input_url = 'http://www.redom.ru/afisha/month/parties/'
+    #input_url = 'http://www.redom.ru/afisha/month/education/'
 
     domen = 'http://www.redom.ru'
 
@@ -61,7 +61,7 @@ namespace :parser do
       item= nil
 
       event_url =domen + elem.css('h2 a').first['href']
-      #event_url ='http://www.redom.ru/afisha/details/8891/'
+      #event_url ='http://www.redom.ru/afisha/details/8690/'
 
       next if temp_array.include?(event_url)  #Пропускаем поиск , если уже ходили по этому url
       temp_array << event_url
@@ -80,8 +80,8 @@ namespace :parser do
       event_data = event_html.css('h6 span.red')
 
       event_data.each do |d|
-        data = d.text.split(',').first
-
+        #data = d.text.split(',').first
+        data = d.text
         d.parent.next_element.css('td.place').each do |place|
           place_url =domen+place.css('a').first['href']
 
@@ -102,7 +102,7 @@ namespace :parser do
             p event.date_begin = "#{data}  #{time1}"
             event.items = [item] if  place.next_element.css('a').blank?
             if item.blank?
-              raise "Почему то итем не найжен и не спарсен "
+              raise "Почему то итем не найден и не спарсен "
             end
             event.auto_load= 1
             event.place =place_o
@@ -125,8 +125,6 @@ namespace :parser do
             else
               p "Событие #{event.name} -- уже есть в базе"
             end
-
-
 
 
 
