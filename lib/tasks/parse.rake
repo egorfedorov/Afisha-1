@@ -38,9 +38,9 @@ namespace :parser do
     #-----------------------------------
     #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
-    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    input_url = 'http://www.redom.ru/afisha/week/cinema/'
     #input_url = 'http://www.redom.ru/afisha/month/concerts/'
-    input_url = 'http://www.redom.ru/afisha/month/parties/'
+    #input_url = 'http://www.redom.ru/afisha/month/parties/'
     #input_url = 'http://www.redom.ru/afisha/month/education/'
 
     domen = 'http://www.redom.ru'
@@ -60,8 +60,8 @@ namespace :parser do
       event = nil
       item= nil
 
-      event_url =domen + elem.css('h2 a').first['href']
-      #event_url ='http://www.redom.ru/afisha/details/8690/'
+      #event_url =domen + elem.css('h2 a').first['href']
+      event_url ='http://www.redom.ru/afisha/details/8978/'
 
       next if temp_array.include?(event_url)  #Пропускаем поиск , если уже ходили по этому url
       temp_array << event_url
@@ -86,7 +86,7 @@ namespace :parser do
           place_url =domen+place.css('a').first['href']
 
           t1 = place.text.split('/')
-          place_name = t1.first.strip
+       p   place_name = t1.first.strip
         p  room_name = t1.last.strip if t1[1]
 
           place_o = Place.find_by_name(place_name) || place_parse(place_url)
@@ -99,7 +99,7 @@ namespace :parser do
             time1= time2.text.gsub(',', '').strip
             event = Event.new
             p event.name="#{item.title}"
-            p event.date_begin = "#{data}  #{time1}"
+            p event.date_begin = "#{data} #{time1}"
             event.items = [item] if  place.next_element.css('a').blank?
             if item.blank?
               raise "Почему то итем не найден и не спарсен "
@@ -123,7 +123,8 @@ namespace :parser do
             if  event.save
               @@events_count +=1
             else
-              p "Событие #{event.name} -- уже есть в базе"
+              p  "Событие #{event.name} -- уже есть в базе"
+
             end
 
 
@@ -141,7 +142,7 @@ namespace :parser do
       p "-----------------------------------"
       p "Items:#{@@items_count},  Событий:#{@@events_count}, Галерей:#{@@galleries_count},   Картинок:#{@@images_count}, Мест:#{@@places_count} Контактов:#{@@contacts_count} "
 
-      #break
+      break
 
 
     end

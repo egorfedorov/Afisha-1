@@ -14,6 +14,7 @@ ActiveAdmin.register Category do
   end
 
   index do
+    column :id
     column :name
     column :desc
     column :type

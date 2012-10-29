@@ -2,15 +2,15 @@ class Schedule
 
   # @param [Category] category
   def self.get_by_category(category)
+
     hash = Hash.new do |hash, key|
       hash[key]=Hash.new { |h, k| h[k]=Hash.new { |h2, k2| h2[k2]=Hash.new { |h3, k3| h3[k3]=[] } } }
     end
 
-    items= Item.select(:id).joins(:categories).where(:categories_items=>{:category_id =>category.self_and_descendants}).all
+    items= Item.select(:id).joins(:categories).where(:categories_items=>{:category_id =>category.self_and_descendants})
 
-    #events =Event.includes(:place, :room ,{:items=>{:galleries=>:images}}).where{{:items=>id.in(items)}}
-    events =Event.select(:place=>[:id,:name],:room=>:name, :items=>[:id,:title]).
-        includes(:place, :room ,:items).where(:items=>{id: items})
+    events =Event.includes(:place, :room ,{:items=>{:galleries=>:images}}).where{{:items=>id.in(items)}}
+    #events =Event.includes(:place, :room ,:items).where(:items=>{id: items})
     #events =Event.includes(:place, :room ,:items).where(:items =>{id: items} )
     #events =Event.joins(:items).where(:items =>{id: items} )
     events.each do |e|
@@ -25,8 +25,6 @@ class Schedule
       #end
 
           hash[date][item][place][room] << time
-
-
     end
     return hash
 

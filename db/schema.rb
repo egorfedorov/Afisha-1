@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(:version => 20121028074215) do
 
   create_table "events", :force => true do |t|
     t.string   "name"
+    t.integer  "item_id"
     t.integer  "place_id"
     t.integer  "category_id"
     t.datetime "date_begin"

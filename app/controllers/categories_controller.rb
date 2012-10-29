@@ -21,6 +21,8 @@ class CategoriesController < ApplicationController
     Rails.cache.fetch('schedule', :expires_in => 24.hours) do
       @schedule = Schedule.get_by_category(@category)
     end
+    #@schedule = Schedule.get_by_category(@category)
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @category }

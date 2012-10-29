@@ -21,8 +21,8 @@ group :development do
   gem 'rdoc'
   gem "bullet"
 end
-gem 'dalli'
-
+#gem 'dalli'
+gem 'memcache-client'
 gem 'activeadmin'
 
 gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
@@ -30,7 +30,7 @@ gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
 gem "html_truncator"
 
 gem 'simple-navigation-bootstrap'
-
+gem 'thinking-sphinx'
 gem 'awesome_nested_set'
 gem 'the_sortable_tree'
 gem 'jquery-rails'
