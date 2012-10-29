@@ -111,6 +111,24 @@ module ParseHelper
 
  end
 
+  def Date_trans(date)
+  month =  {'Января' => 'January',
+    'Февраля' => 'February',
+    'Марта' => 'March',
+    'Апреля' => 'April',
+    'Мая' => 'May'  ,
+    'Июня' => 'June',
+    'Июля' => 'July',
+    'Августа' => 'August',
+    'Сентября' => 'September',
+    'Октября' => 'October',
+    'ноября' => 'November',
+    'Декабря' => 'December' }
+
+  month.each { |k,v| date.sub!(k, v) }
+      return date
+
+  end
 
 
 end
