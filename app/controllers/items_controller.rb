@@ -15,7 +15,7 @@ class ItemsController < ApplicationController
   def show
     @item = Item.includes(:events=>[:place,:room]).order('events.date_begin','places.id').find(params[:id])
 
-    @events = @item.events
+
 
 
     respond_to do |format|

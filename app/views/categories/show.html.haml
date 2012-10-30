@@ -2,5 +2,21 @@
 %h1= @category.name
 -#=render "shared/items"
 -#=paginate( @items )
-- @schedule.each do |k, v|
+- @category.schedule.each do |k, v|
   =k
+
+
+
+-#:ruby
+-#   require 'benchmark'
+-#
+-#  Benchmark.bmbm do |x|
+-#    x.report("Benchmark 1") do
+-#      10.times do
+-#       Schedule.get_by_category(@category)
+-#      end
+-#    end
+-#
+-#
+-#
+-#  end

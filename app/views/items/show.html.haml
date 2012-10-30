@@ -13,7 +13,7 @@
 
 \|
 = link_to 'Back', items_path
--#=schedule(@item)
+
 -@item.schedule.each  do |k , places|
   .row
     .span3
@@ -26,25 +26,6 @@
           =room.try :name
           -times.each do |time|
             =time
--#=schedule2(@item)
-
--#:ruby
--#   require 'benchmark'
--#
--#  Benchmark.bmbm do |x|
--#    x.report("Benchmark 1") do
--#      10000.times do
--#       schedule(@item)
--#      end
--#    end
--#    x.report("Benchmark 2") do
--#         10000.times do
--#          schedule2(@item)
--#         end
--#       end
--#
--#
--#  end
 
 
 -#TODO В некоторых местах еще ругается если нет изображения

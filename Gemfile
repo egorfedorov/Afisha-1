@@ -20,6 +20,7 @@ group :development do
   gem 'hirb'
   gem 'rdoc'
   gem "bullet"
+  gem 'ruby-prof'
 end
 #gem 'dalli'
 gem 'memcache-client'

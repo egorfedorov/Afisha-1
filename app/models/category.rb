@@ -21,14 +21,15 @@ class Category < ActiveRecord::Base
   has_many :places
   has_one :parent_category , :class_name=>:category , :foreign_key => :parent_id
 
-
+  def schedule
+    Schedule.get_by_category(self)
+  end
   def parent_category
     self.parent
 
   end
 
   def items_in_category
-
     items= Item.joins(:categories).where(:categories_items=>{:category_id =>self.self_and_descendants})
     Item.includes(:categories,:galleries=>:images).where(:id=>(items.select{id}))
   end

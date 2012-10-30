@@ -7,6 +7,6 @@ class BrowsingTest < ActionDispatch::PerformanceTest
   #                          :output => 'tmp/performance', :formats => [:flat] }
 
   def test_homepage
-    get '/'
+    get '/categories/3'
   end
 end

@@ -38,8 +38,8 @@ namespace :parser do
     #-----------------------------------
     #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
-    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
-    input_url = 'http://www.redom.ru/afisha/month/concerts/'
+    input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    #input_url = 'http://www.redom.ru/afisha/month/concerts/'
     #input_url = 'http://www.redom.ru/afisha/month/parties/'
     #input_url = 'http://www.redom.ru/afisha/month/education/'
 
@@ -81,7 +81,7 @@ namespace :parser do
 
       event_data.each do |d|
         #data = d.text.split(',').first
-        data = Date_trans d.text
+        data = Date_trans d.text+' +0800'
         d.parent.next_element.css('td.place').each do |place|
           place_url =domen+place.css('a').first['href']
 
