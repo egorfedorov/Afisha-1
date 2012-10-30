@@ -1,7 +1,8 @@
 class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
-  include TheSortableTreeController::Rebuild
+  #include TheSortableTreeController::Rebuild
+  #caches_page :index
   def index
     @categories = Category.all
 

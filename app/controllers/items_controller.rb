@@ -1,6 +1,7 @@
 class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
+  #caches_page :index
   def index
     @items = Item.includes([{:galleries=>:images},:categories]).page(params[:page])
 
