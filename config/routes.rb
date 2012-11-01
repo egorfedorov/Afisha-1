@@ -13,7 +13,9 @@ Afisha::Application.routes.draw do
 
   get 'parse' => 'items#parse'
 
-  resources :items  ,:only => [:index , :show]
+  resources :items  ,:only => [:index , :show]  do
+    get 'page/:page'  , action: 'index' , on: :collection
+  end
 
   resources :categories   ,:only => [:index , :show]
   # The priority is based upon order of creation:
