@@ -1,9 +1,24 @@
 -#=paginate( @items )
-%h1= @category.name
--#=render "shared/items"
--#=paginate( @items )
-- @category.schedule.each do |k, v|
-  =k
+.row
+  %h1= @category.name
+  -#=render "shared/items"
+  -#=paginate( @items )
+  - @category.schedule.each do |date, items|
+    .span9
+      %h4=date
+      .row
+        - items.each do |item,place|
+          .span7
+            .well.overflow
+              .span3
+                %h5=link_to item.title , item_path(item) , :title=>item.title
+                -item.categories.each do |cat|
+                  =link_to cat.name , category_path(cat)
+                =image_tag item.galleries.first.images.first.image.url('medium') unless item.galleries.empty?
+                -#.small
+                = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
+              .span5
+                =place.name
 
 
 
