@@ -7,18 +7,24 @@
     .span9
       %h4=date
       .row
-        - items.each do |item,place|
-          .span7
+        - items.each do |item,places|
+          .span9
             .well.overflow
               .span3
                 %h5=link_to item.title , item_path(item) , :title=>item.title
-                -item.categories.each do |cat|
-                  =link_to cat.name , category_path(cat)
-                =image_tag item.galleries.first.images.first.image.url('medium') unless item.galleries.empty?
-                -#.small
+                .categories_line
+                  -item.categories.each do |cat|
+                    =link_to cat.name , category_path(cat)
+                .image
+                  =image_tag item.galleries.first.images.last.image.url('thumb') unless item.galleries.empty?
+
                 = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
               .span5
-                =place.name
+                -places.each do |place, rooms|
+                  -rooms.each do |room, times|
+                    %b=link_to(place.name, place_path(place))
+                    = " #{room.try(:name)} #{times.join(', ')}"
+                    %br
 
 
 

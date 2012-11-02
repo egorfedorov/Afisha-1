@@ -18,6 +18,7 @@ Afisha::Application.routes.draw do
   end
 
   resources :categories   ,:only => [:index , :show]
+  resources :my_tests   ,:only => [:index]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -67,7 +68,7 @@ Afisha::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'items#index'
 
   # See how all your routes lay out with "rake routes"
 

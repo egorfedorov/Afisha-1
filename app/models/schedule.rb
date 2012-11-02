@@ -48,5 +48,15 @@ class Schedule
       hash
   end
 
+  def self.get_by_place(place)
+
+    events= Event.where(place_id:place)
+
+    t1=events.group_by{|e| e.items.first.id }
+    t2=t1.map{|k,v|  {k=>(v.group_by{|v| v.date_begin.to_date}) } }
+    t3= t2.each{|v| v.each{|item,date| date.each{|date,events| events.each{|event| p event.date_begin} }  } }
+
+
+  end
 
 end
