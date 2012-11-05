@@ -7,4 +7,8 @@ class Place < ActiveRecord::Base
   belongs_to :category           , :conditions => "type_id = 3"
   validates :name , :uniqueness => true
   paginates_per 5
+
+  def schedule
+     Schedule.get_by_place self
+  end
 end

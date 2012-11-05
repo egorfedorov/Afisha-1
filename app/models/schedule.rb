@@ -48,15 +48,44 @@ class Schedule
       hash
   end
 
-  def self.get_by_place(place)
+  # @param [Object] place
+  def self.get_by_place_old(place)
 
-    events= Event.where(place_id:place)
+    #events= Event.where(place_id:place)
+    events= place.events.includes(:items)
 
     t1=events.group_by{|e| e.items.first.id }
-    t2=t1.map{|k,v|  {k=>(v.group_by{|v| v.date_begin.to_date}) } }
-    t3= t2.each{|v| v.each{|item,date| date.each{|date,events| events.each{|event| p event.date_begin} }  } }
+    t1=t1.map do |k, v|
+      {k => (v.group_by { |v| v.date_begin.to_date })}
+    end
+
+   t1.map do |v|
+     v.map do |item, date|
+     {item=> date.map do |date, events|
+        {date=> events.map do |event|
+           event.date_begin.strftime('%R')
+         end }
+       end }
+     end
+   end
 
 
   end
+
+  def self.get_by_place(place)
+    events= place.events.includes(:items, :room)
+    #events= Event.where(place_id:place)
+    hash = Hash.new { |hash, key| hash[key]=Hash.new{|h,k| h[k]=Hash.new{|h2, k2| h2[k2]=[] } }}
+    events.each do |e|
+      date =   e.date_begin.to_date
+      item = e.items.first
+      room = e.room.try :name
+      time = e.date_begin.strftime('%R')
+      hash[item][date][room] << time
+    end
+    hash
+
+  end
+
 
 end
