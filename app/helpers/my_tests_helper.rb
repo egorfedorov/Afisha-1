@@ -1,0 +1,2 @@
+module MyTestsHelper
+end
