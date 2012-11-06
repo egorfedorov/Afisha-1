@@ -13,12 +13,11 @@
               .span3
                 %h5=link_to item.title , item_path(item) , :title=>item.title
                 .categories_line
-                  -item.categories.each do |cat|
-                    =link_to cat.name , category_path(cat)
-                .image
-                  =image_tag item.galleries.first.images.last.image.url('thumb') unless item.galleries.empty?
-
-                = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
+                -#  -item.categories.each do |cat|
+                -#    =link_to cat.name , category_path(cat)
+                -#.image
+                -#  =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
+                -#= HTML_Truncator.truncate( item.full_text ,10 ).html_safe
               .span5
                 -places.each do |place, rooms|
                   -rooms.each do |room, times|
