@@ -15,15 +15,16 @@
                 .categories_line
                 -#  -item.categories.each do |cat|
                 -#    =link_to cat.name , category_path(cat)
-                -#.image
-                -#  =image_tag item.galleries.first.images.last.image.url('medium') unless item.galleries.empty?
+                .image
+                  =image_tag item.galleries.first.images.last.image.url('thumb') unless item.galleries.empty?
                 -#= HTML_Truncator.truncate( item.full_text ,10 ).html_safe
               .span5
                 -places.each do |place, rooms|
                   -rooms.each do |room, times|
                     %b=link_to(place.name, place_path(place))
-                    = " #{room.try(:name)} #{times.join(', ')}"
-                    %br
+                    .room=room.try(:name)
+                    .time_block
+                      =times.join(', ')
 
 
 

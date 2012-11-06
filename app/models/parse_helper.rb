@@ -2,7 +2,7 @@
 module ParseHelper
 
 
-    attr :galleries_count
+    #attr :galleries_count
     #attr :item_count
     #attr_accessor :images_count , :images_count
   @@galleries_count = 0
@@ -73,8 +73,10 @@ module ParseHelper
 
  def item_parse ( parent_cat, url, item_html=nil)
 
+
+
    item_html ||=  Nokogiri::HTML(open(url))
-   p  item_name = item_html.css('h1.black').text
+    item_name = item_html.css('h1.black').text
 
       item =  Item.find_by_title(item_name) ||  Item.new(:title =>item_name) # Пропускаем если уже есть такой item
 
@@ -102,28 +104,29 @@ module ParseHelper
 
        item.galleries << g
 
-
+      return item
       end
     else
       p  "#{item.title} -- уже есть в базе"
+      return item
     end
-   item
+
 
  end
 
   def Date_trans(date)
   month =  {'Января' => 'January',
-    'Февраля' => 'February',
-    'Марта' => 'March',
-    'Апреля' => 'April',
-    'Мая' => 'May'  ,
-    'Июня' => 'June',
-    'Июля' => 'July',
-    'Августа' => 'August',
-    'Сентября' => 'September',
-    'Октября' => 'October',
+    'февраля' => 'February',
+    'марта' => 'March',
+    'апреля' => 'April',
+    'мая' => 'May'  ,
+    'июня' => 'June',
+    'июля' => 'July',
+    'августа' => 'August',
+    'сентября' => 'September',
+    'октября' => 'October',
     'ноября' => 'November',
-    'Декабря' => 'December' }
+    'декабря' => 'December' }
 
   month.each { |k,v| date.sub!(k, v) }
       return date

@@ -7,7 +7,8 @@
         %h4=link_to item.title , item_path(item) , :title=>item.title
         -item.categories.each do |cat|
           =link_to cat.name , category_path(cat)
-        =image_tag item.galleries.first.images.first.image.url('medium') unless item.galleries.empty?
+        =link_to item.main_image.url('large')+'.jpg', class:'fancybox' do
+          =image_tag item.main_image.url('medium')
         -#.small
         = HTML_Truncator.truncate( item.full_text ,10 ).html_safe
     - if   i.multiple_of?(3)

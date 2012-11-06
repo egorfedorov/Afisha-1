@@ -71,9 +71,9 @@ namespace :parser do
       #####################################
       item = item_parse(parent_cat, '', event_html)
       #################################
-      gallery = gallery_parse('', event_html)
-      gallery.item = item
-      gallery.save!
+      #gallery = gallery_parse('', event_html)
+      #gallery.item = item
+      #gallery.save!
       #################################
 
 
