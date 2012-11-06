@@ -1,4 +1,5 @@
 class MyTestsController < ApplicationController
+
   # GET /my_tests
   # GET /my_tests.json
   def index

@@ -81,12 +81,12 @@ namespace :parser do
 
       event_data.each do |d|
         #data = d.text.split(',').first
-        data = Date_trans d.text+' +0800'
+        data = Date_trans d.text
         d.parent.next_element.css('td.place').each do |place|
           place_url =domen+place.css('a').first['href']
 
           t1 = place.text.split('/')
-       p   place_name = t1.first.strip
+        p  place_name = t1.first.strip
         p  room_name = t1.last.strip if t1[1]
 
           place_o = Place.find_by_name(place_name) || place_parse(place_url)

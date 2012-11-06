@@ -2,7 +2,7 @@
 
 %h1=@item.title
 -@item.categories.each do |cat|
-  .path=link_to cat.name , category_path(cat)
+  =link_to cat.name , category_path(cat)
 
 .img_float= image_tag @item.images.first.image.url('medium')
 
@@ -21,11 +21,12 @@
       -places.each do |place ,rooms|
         .row
           .span3
-            =place.name
-        -rooms.each do |room, times|
-          =room.try :name
-          -times.each do |time|
-            =time
+            %h6=link_to place.name , place_path(place)
+            -rooms.each do |room, times|
+              =room.try :name
+              -times.each do |time|
+                =time
+              %br
 
 
 -#TODO В некоторых местах еще ругается если нет изображения

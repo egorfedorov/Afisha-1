@@ -81,6 +81,7 @@ class Schedule
       item = e.items.first
       room = e.room.try :name
       time = e.date_begin.strftime('%R')
+
       hash[item][date][room] << time
     end
     hash
