@@ -3,6 +3,9 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   #include TheSortableTreeController::Rebuild
   #caches_page :index
+
+  #caches_action :show
+
   def index
     @categories = Category.all
 
@@ -15,13 +18,16 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
-    @category = Category.find(params[:id])
+
 
     #@items=@category.items_in_category.page(params[:page])
     #@items=@category.items_in_category
-    #Rails.cache.fetch('schedule', :expires_in => 24.hours) do
-    #  @schedule = Schedule.get_by_category(@category)
+    #Rails.cache.fetch('category', :expires_in => 24.hours) do
+      #@schedule = Schedule.get_by_category(@category)
+             @category = Category.find(params[:id])
+
     #end
+
 
     respond_to do |format|
       format.html # show.html.erb

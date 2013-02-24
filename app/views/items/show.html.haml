@@ -7,16 +7,19 @@
 .img_float
   =link_to @item.main_image.url('large')+'.jpg', class:'fancybox-thumb' ,rel:"fancybox-thumb" do
     = image_tag @item.main_image.url('medium')+'.jpg'
-%p
-  =@item.info.html_safe
-%p
-  = @item.full_text.html_safe
-.gallery
-  -@item.galleries.first.images.each_with_index do |image, index|
-    -if index > 1
-      .img
-        =link_to image.image.url('large')+'.jpg', class:'fancybox-thumb' ,rel:"fancybox-thumb" do
-          =image_tag(image.image.url('thumb')+'.jpg')
+-if @item.info
+  %p
+    =@item.info.html_safe
+-if @item.full_text
+  %p
+    = @item.full_text.html_safe
+-if @item.images
+  .gallery
+    -@item.images.each_with_index do |image, index|
+      -if index > 1
+        .img
+          =link_to image.image.url('large')+'.jpg', class:'fancybox-thumb' ,rel:"fancybox-thumb" do
+            =image_tag(image.image.url('thumb')+'.jpg')
 
 
 \|
@@ -37,7 +40,7 @@
               %br
 
 
--#TODO В некоторых местах еще ругается если нет изображения
+
 
 
 

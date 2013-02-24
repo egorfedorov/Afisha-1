@@ -12,7 +12,7 @@ development:
    database: Afisha
    pool: 5
    username: Afisha
-   password: afisha
+   password: 1
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
@@ -23,7 +23,7 @@ test:
      database: Afisha_test
      pool: 5
      username: Afisha
-     password: afisha
+     password: 1
 
 production:
      adapter: postgresql
@@ -32,4 +32,4 @@ production:
      database: Afisha
      pool: 5
      username: Afisha
-     password: afisha
+     password: 1

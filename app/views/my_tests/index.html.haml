@@ -16,31 +16,35 @@
     return
   ko.applyBindings(new MyFirstModel());
 
--#=@result
--#</br>
--#=@result2
--#:ruby
--#  require 'benchmark'
--#   item=Item.find(313)
--#  Benchmark.bmbm do |x|
--#
--#    x.report("Benchmark 1") do
--#      10.times do
--#        @result = Schedule.get_by_place Place.find 87
--#
--#
--#
--#      end
--#    end
--#    x.report("Benchmark 2") do
--#          10.times do
--#            @result2 = Schedule.get_by_place2 Place.find 87
--#
--#
--#          end
--#      end
--#
--#
--#
--#
--#  end
+
+:ruby
+  cat = Category.find(3)
+  require 'benchmark'
+  Benchmark.bmbm do |x|
+
+    x.report("Benchmark 2") do
+          1.times do
+            @result2 = Schedule.get_by_category2(cat)
+
+          end
+      end
+
+  end
+
+<br/>
+<hr/>
+:ruby
+  Benchmark.bmbm do |x|
+
+     x.report("Benchmark 1") do
+       1.times do
+         @result = Schedule.get_by_category(cat)
+
+       end
+     end
+
+   end
+
+
+
+

@@ -24,9 +24,9 @@ class Category < ActiveRecord::Base
   def schedule
     Schedule.get_by_category(self)
   end
+
   def parent_category
     self.parent
-
   end
 
   def items_in_category

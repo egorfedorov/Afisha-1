@@ -16,4 +16,6 @@ class MyTestsController < ApplicationController
     render 'my_tests/index' , layout:false
   end
 
+
+
 end

@@ -11,7 +11,7 @@ Afisha::Application.routes.draw do
   resources :events   ,:only => [:index , :show]
 
 
-  get 'parse' => 'items#parse'
+  #get 'parse' => 'items#parse'
 
   resources :items  ,:only => [:index , :show]  do
     get 'page/:page'  , action: 'index' , on: :collection

@@ -21,7 +21,7 @@ module ParseHelper
     name = html.css('h1').text
     desc =  html.css('div.item-xdata').text
     place =Place.new
-    place.name= name
+    place.name= name.chomp
     place.desc =desc
     address=html.at_xpath('//tr/td[text()="Адрес"]').try(:next_element).try(:text)
     location=html.at_xpath('//tr/td[text()="Район"]').try(:next_element).try(:text)

@@ -9,19 +9,19 @@ class Event < ActiveRecord::Base
 
   paginates_per 5
 
-  define_index do
-    # fields
-    indexes name
-    indexes items.title, as: :item_title
-    has items.id, as: :item_id, facet: true
-    has room_id, facet: true
-    has place_id, facet: true
-    indexes items.categories.id, as: :category_id
-
-    has date_begin
-
-    # attributes
-  end
+  #define_index do
+  #  # fields
+  #  indexes name
+  #  indexes items.title, as: :item_title
+  #  has items.id, as: :item_id, facet: true
+  #  has room_id, facet: true
+  #  has place_id, facet: true
+  #  indexes items.categories.id, as: :category_id
+  #
+  #  has date_begin
+  #
+  #  # attributes
+  #end
 
 
 end

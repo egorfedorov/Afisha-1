@@ -16,12 +16,12 @@
                 -#  -item.categories.each do |cat|
                 -#    =link_to cat.name , category_path(cat)
                 .image
-                  =image_tag item.galleries.first.images.last.image.url('thumb') unless item.galleries.empty?
+                  =image_tag item.images.first.image.url('thumb') if item.images
                 -#= HTML_Truncator.truncate( item.full_text ,10 ).html_safe
               .span5
                 -places.each do |place, rooms|
                   -rooms.each do |room, times|
-                    %b=link_to(place.name, place_path(place))
+                    %b=link_to(place.name, place_path(place)) if place
                     .room=room.try(:name)
                     .time_block
                       =times.join(', ')

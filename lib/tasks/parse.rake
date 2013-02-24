@@ -38,10 +38,10 @@ namespace :parser do
     #-----------------------------------
     #input_url = 'http://www.redom.ru/afisha/week/exhibitions/'
     #input_url = 'http://www.redom.ru/afisha/month/shows/'
-    input_url = 'http://www.redom.ru/afisha/week/cinema/'
+    #input_url = 'http://www.redom.ru/afisha/week/cinema/'
     #input_url = 'http://www.redom.ru/afisha/month/concerts/'
     #input_url = 'http://www.redom.ru/afisha/month/parties/'
-    #input_url = 'http://www.redom.ru/afisha/month/education/'
+    input_url = 'http://www.redom.ru/afisha/month/education/'
 
     domen = 'http://www.redom.ru'
 
@@ -102,7 +102,7 @@ namespace :parser do
             p event.date_begin = "#{data} #{time1}"
             event.items = [item] if  place.next_element.css('a').blank?
             if item.blank?
-              raise "Почему то итем не найден и не спарсен "
+              raise "Почему то итем не найден и не спарсен"
             end
             event.auto_load= 1
             event.place =place_o
@@ -146,7 +146,7 @@ namespace :parser do
 
 
     end
-   p "Поиск осуществлен по  #{temp_array.count} станицам"
+   p "Поиск осуществлен по  #{temp_array.count} страницам"
 
   end
 

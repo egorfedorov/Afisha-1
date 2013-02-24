@@ -19,27 +19,27 @@ group :development do
   gem 'haml-rails'
   gem 'hirb'
   gem 'rdoc'
-  gem "bullet"
+  gem 'bullet'
   gem 'ruby-prof'
 end
 #gem 'dalli'
 gem 'memcache-client'
 gem 'activeadmin'
 
-gem "paperclip", :git => "git://github.com/thoughtbot/paperclip.git"
+gem 'paperclip', :git => 'git://github.com/thoughtbot/paperclip.git'
 
-gem "html_truncator"
+gem 'html_truncator'
 
 gem 'simple-navigation-bootstrap'
-gem 'thinking-sphinx'
+#gem 'thinking-sphinx'
 gem 'awesome_nested_set'
 gem 'the_sortable_tree'
 gem 'jquery-rails'
 gem 'pg'
-gem "devise"
+gem 'devise'
 gem 'cancan'
 gem 'haml'
-gem "squeel"
+gem 'squeel'
 gem 'nokogiri'
 
 
